@@ -22,8 +22,10 @@ Promise.all([
     const html = results[1].toString();
     const css = results[2].toString();
 
-    const compiledSource = compile(source, true);
-    const debugSource = compile(source, false);
+    const sourceWithMacros = applyMacros(source);
+
+    const compiledSource = compile(sourceWithMacros, true);
+    const debugSource = compile(sourceWithMacros, false);
 
     console.log('Compiled source is ' + Math.round(compiledSource.length * 100 / source.length) + '% the size of the original source');
 
@@ -78,4 +80,46 @@ function inject(html, script, style){
     view[INJECT_CSS_TAG] = style;
 
     return Mustache.render(html, view);
+}
+
+
+function applyMacros(source){
+    for(let macroId in config.MACROS){
+        const lengthBefore = source.length;
+
+        console.log('Applying macro: ' + macroId);
+
+        const macro = require('./macros/' + config.MACROS[macroId]);
+
+        const regex = new RegExp(macroId + '\\(', 'g');
+
+        while(true){
+            const match = regex.exec(source);
+
+            if(!match){
+                break;
+            }
+            const matchStart = match.index;
+            const matchEnd = source.indexOf(')', matchStart) + 1;
+
+            const contentStart = matchStart + (macroId + '(').length;
+            const contentEnd = matchEnd - 1;
+
+            const contentString = source.substring(contentStart, contentEnd);
+            const content = JSON.parse(contentString);
+
+            const modifiedContent = macro(content);
+
+            const sourceBefore = source.substring(0, matchStart);
+            const sourceAfter = source.substring(matchEnd);
+
+            source = sourceBefore + modifiedContent + sourceAfter;
+        }
+
+        const lengthAfter = source.length;
+
+        console.log('Saved ' + Math.round(100 * (lengthBefore - lengthAfter) / lengthBefore) + '% (' + (lengthAfter - lengthBefore) + ' chars)');
+    }
+
+    return source;
 }

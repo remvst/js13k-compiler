@@ -12,6 +12,9 @@
         "DEBUG_HTML": "sample/build/debug.html",
         "DEBUG_JS": "sample/build/debug.js"
     },
+    "MACROS": {
+        "matrixToString": "matrix-to-string"
+    },
     "JS_KEYWORDS": [
         "var",
         "function",
