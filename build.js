@@ -96,32 +96,29 @@ function applyMacros(source){
         while(true){
             const match = regex.exec(source);
 
-            if(match){
-                const matchStart = match.index;
-                const matchEnd = source.indexOf(')', matchStart) + 1;
-
-                const contentStart = matchStart + (macroId + '(').length;
-                const contentEnd = matchEnd - 1;
-
-                const contentString = source.substring(contentStart, contentEnd);
-                const content = JSON.parse(contentString);
-
-                const modifiedContent = macro(content);
-
-                const sourceBefore = source.substring(0, matchStart);
-                const sourceAfter = source.substring(matchEnd);
-
-                console.log(modifiedContent.length / contentString.length);
-
-                source = sourceBefore + modifiedContent + sourceAfter;
-            }else{
+            if(!match){
                 break;
             }
+            const matchStart = match.index;
+            const matchEnd = source.indexOf(')', matchStart) + 1;
+
+            const contentStart = matchStart + (macroId + '(').length;
+            const contentEnd = matchEnd - 1;
+
+            const contentString = source.substring(contentStart, contentEnd);
+            const content = JSON.parse(contentString);
+
+            const modifiedContent = macro(content);
+
+            const sourceBefore = source.substring(0, matchStart);
+            const sourceAfter = source.substring(matchEnd);
+
+            source = sourceBefore + modifiedContent + sourceAfter;
         }
 
         const lengthAfter = source.length;
 
-        console.log('Saved ' + Math.round(100 * (lengthBefore - lengthAfter) / lengthBefore) + '% (' + (lengthBefore - lengthAfter) + ' chars)');
+        console.log('Saved ' + Math.round(100 * (lengthBefore - lengthAfter) / lengthBefore) + '% (' + (lengthAfter - lengthBefore) + ' chars)');
     }
 
     return source;
