@@ -4,7 +4,10 @@
             "sample/src/js/main.js"
         ],
         "HTML": "sample/src/index.html",
-        "CSS": "sample/src/style.css"
+        "CSS": "sample/src/style.css",
+        "DATA": {
+            "MASKS": "sample/src/data/data.json"
+        }
     },
     "OUTPUT": {
         "HTML": "sample/build/game.html",

@@ -16,11 +16,25 @@ const INJECT_CSS_TAG = 'CSS_INJECTION_SITE';
 Promise.all([
     Promise.all(config.INPUT.JS.map(file => fsp.readFile(file))),
     fsp.readFile(config.INPUT.HTML),
-    fsp.readFile(config.INPUT.CSS)
+    fsp.readFile(config.INPUT.CSS),
+    (function(){
+        const promises = [];
+
+        // Inserting data
+        for(let constant in config.INPUT.DATA){
+            promises.push(Promise.all([constant, fsp.readFile(config.INPUT.DATA[constant])]));
+        }
+
+        return Promise.all(promises);
+    })()
 ]).then(results => {
     const source = results[0].join('\n');
     const html = results[1].toString();
     const css = results[2].toString();
+    const dataConstants = results[3];
+
+    console.log('Injecting data constants');
+    const sourceWithDataConstants = insertDataConstants(source, dataConstants);
 
     const compiledSource = compile(source, true);
     const debugSource = compile(source, false);
@@ -78,4 +92,16 @@ function inject(html, script, style){
     view[INJECT_CSS_TAG] = style;
 
     return Mustache.render(html, view);
+}
+
+
+function insertDataConstants(source, dataConstants){
+    dataConstants.forEach((dataConstant) => {
+        const id = dataConstant[0];
+        const data = dataConstant[1];
+
+        console.log('Adding data constant ' + id);
+    });
+
+    return source;
 }
