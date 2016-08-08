@@ -13,7 +13,7 @@
         "DEBUG_JS": "sample/build/debug.js"
     },
     "MACROS": {
-        "matrixToString": "matrix-to-string"
+        "matrix": "matrix"
     },
     "JS_KEYWORDS": [
         "var",

@@ -85,11 +85,16 @@ function inject(html, script, style){
 
 function applyMacros(source){
     for(let macroId in config.MACROS){
-        const lengthBefore = source.length;
-
         console.log('Applying macro: ' + macroId);
 
         const macro = require('./macros/' + config.MACROS[macroId]);
+
+        const undoName = 'revert' + macroId.substr(0, 1).toUpperCase() + macroId.substr(1);
+        const undoCode = macro.revert.toString().replace(/function/, 'function ' + undoName);
+
+        source = undoCode + '\n\n' + source;
+
+        let characterDiff = undoCode.length;
 
         const regex = new RegExp(macroId + '\\(', 'g');
 
@@ -108,17 +113,17 @@ function applyMacros(source){
             const contentString = source.substring(contentStart, contentEnd);
             const content = JSON.parse(contentString);
 
-            const modifiedContent = macro(content);
+            const modifiedContent = macro.apply(content);
+
+            characterDiff += modifiedContent.length - JSON.stringify(content).length;
 
             const sourceBefore = source.substring(0, matchStart);
             const sourceAfter = source.substring(matchEnd);
 
-            source = sourceBefore + modifiedContent + sourceAfter;
+            source = sourceBefore + undoName + '(' + modifiedContent + ')' + sourceAfter;
         }
 
-        const lengthAfter = source.length;
-
-        console.log('Saved ' + Math.round(100 * (lengthBefore - lengthAfter) / lengthBefore) + '% (' + (lengthAfter - lengthBefore) + ' chars)');
+        console.log('Character difference: ' + characterDiff + ' chars');
     }
 
     return source;
