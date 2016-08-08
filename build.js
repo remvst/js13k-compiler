@@ -16,28 +16,16 @@ const INJECT_CSS_TAG = 'CSS_INJECTION_SITE';
 Promise.all([
     Promise.all(config.INPUT.JS.map(file => fsp.readFile(file))),
     fsp.readFile(config.INPUT.HTML),
-    fsp.readFile(config.INPUT.CSS),
-    (function(){
-        const promises = [];
-
-        // Inserting data
-        for(let constant in config.INPUT.DATA){
-            promises.push(Promise.all([constant, fsp.readFile(config.INPUT.DATA[constant])]));
-        }
-
-        return Promise.all(promises);
-    })()
+    fsp.readFile(config.INPUT.CSS)
 ]).then(results => {
     const source = results[0].join('\n');
     const html = results[1].toString();
     const css = results[2].toString();
-    const dataConstants = results[3];
 
-    console.log('Injecting data constants');
-    const sourceWithDataConstants = insertDataConstants(source, dataConstants);
+    const sourceWithMacros = applyMacros(source);
 
-    const compiledSource = compile(source, true);
-    const debugSource = compile(source, false);
+    const compiledSource = compile(sourceWithMacros, true);
+    const debugSource = compile(sourceWithMacros, false);
 
     console.log('Compiled source is ' + Math.round(compiledSource.length * 100 / source.length) + '% the size of the original source');
 
@@ -95,13 +83,40 @@ function inject(html, script, style){
 }
 
 
-function insertDataConstants(source, dataConstants){
-    dataConstants.forEach((dataConstant) => {
-        const id = dataConstant[0];
-        const data = dataConstant[1];
+function applyMacros(source){
+    for(let macroId in config.MACROS){
+        console.log('Applying macro: ' + macroId);
 
-        console.log('Adding data constant ' + id);
-    });
+        const macro = require('./macros/' + config.MACROS[macroId]);
+
+        const regex = new RegExp(macroId + '\\(', 'g');
+
+        while(true){
+            const match = regex.exec(source);
+
+            if(match){
+                const matchStart = match.index;
+                const matchEnd = source.indexOf(')', matchStart) + 1;
+
+                const contentStart = matchStart + (macroId + '(').length;
+                const contentEnd = matchEnd - 1;
+
+                const contentString = source.substring(contentStart, contentEnd);
+                const content = JSON.parse(contentString);
+
+                const modifiedContent = macro(content);
+
+                const sourceBefore = source.substring(0, matchStart);
+                const sourceAfter = source.substring(matchEnd);
+
+                source = sourceBefore + modifiedContent + sourceAfter;
+            }else{
+                break;
+            }
+        }
+    }
+
+    console.log(source);
 
     return source;
 }

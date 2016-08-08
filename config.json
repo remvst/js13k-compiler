@@ -4,16 +4,16 @@
             "sample/src/js/main.js"
         ],
         "HTML": "sample/src/index.html",
-        "CSS": "sample/src/style.css",
-        "DATA": {
-            "MASKS": "sample/src/data/data.json"
-        }
+        "CSS": "sample/src/style.css"
     },
     "OUTPUT": {
         "HTML": "sample/build/game.html",
         "ZIP": "sample/build/game.zip",
         "DEBUG_HTML": "sample/build/debug.html",
         "DEBUG_JS": "sample/build/debug.js"
+    },
+    "MACROS": {
+        "matrixToString": "matrix-to-string"
     },
     "JS_KEYWORDS": [
         "var",

@@ -6,4 +6,13 @@ window.addEventListener('load', function(){
     console.log(variableThatWillBeShortened);
 
     console.log(MY_AWESOME_CONSTANT); // defined in config.json
+
+    var data = matrixToString([
+        [0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1]
+    ]);
 }, false);
