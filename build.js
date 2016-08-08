@@ -85,6 +85,8 @@ function inject(html, script, style){
 
 function applyMacros(source){
     for(let macroId in config.MACROS){
+        const lengthBefore = source.length;
+
         console.log('Applying macro: ' + macroId);
 
         const macro = require('./macros/' + config.MACROS[macroId]);
@@ -109,14 +111,18 @@ function applyMacros(source){
                 const sourceBefore = source.substring(0, matchStart);
                 const sourceAfter = source.substring(matchEnd);
 
+                console.log(modifiedContent.length / contentString.length);
+
                 source = sourceBefore + modifiedContent + sourceAfter;
             }else{
                 break;
             }
         }
-    }
 
-    console.log(source);
+        const lengthAfter = source.length;
+
+        console.log('Saved ' + Math.round(100 * (lengthBefore - lengthAfter) / lengthBefore) + '% (' + (lengthBefore - lengthAfter) + ' chars)');
+    }
 
     return source;
 }
