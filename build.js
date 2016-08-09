@@ -104,14 +104,27 @@ function applyMacros(source){
             if(!match){
                 break;
             }
+
             const matchStart = match.index;
-            const matchEnd = source.indexOf(')', matchStart) + 1;
+
+            let lvl = 1;
+            let i = matchStart + (macroId + '(').length + 1;
+            while(lvl > 0 && i < source.length){
+                if(source.charAt(i) === '('){
+                    lvl++;
+                }else if(source.charAt(i) === ')'){
+                    lvl--;
+                }
+
+                i++;
+            }
+
+            const matchEnd = i;
 
             const contentStart = matchStart + (macroId + '(').length;
             const contentEnd = matchEnd - 1;
 
-            const contentString = source.substring(contentStart, contentEnd);
-            const content = JSON.parse(contentString);
+            const content = source.substring(contentStart, contentEnd);
 
             const modifiedContent = macro.apply(content);
 

@@ -3,7 +3,9 @@
 const ROW_SPLITTER = ',';
 
 module.exports = {
-    'apply': (matrix) => {
+    'apply': (s) => {
+        const matrix = JSON.parse(s);
+
         let rows = [];
         for(let row = 0 ; row < matrix.length ; row++){
             let s = '';
