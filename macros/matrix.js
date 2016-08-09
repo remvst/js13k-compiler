@@ -1,7 +1,5 @@
 'use strict';
 
-const ROW_SPLITTER = ',';
-
 module.exports = {
     'apply': (s) => {
         const matrix = JSON.parse(s);
@@ -17,10 +15,10 @@ module.exports = {
             rows.push(s);
         }
 
-        return JSON.stringify(rows.join(ROW_SPLITTER)); // commas are shorter than newlines
+        return JSON.stringify(rows.join(',')); // commas are shorter than newlines
     },
     'revert': function(s){
-        return JSON.parse(s).split(ROW_SPLITTER).map(function(r){
+        return s.split(',').map(function(r){
             return r.split('');
         });
     }
