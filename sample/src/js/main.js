@@ -15,4 +15,6 @@ window.addEventListener('load', function(){
         [0, 0, 0, 0, 0, 0, 0, 0, 1],
         [1, 1, 1, 1, 1, 1, 1, 1, 1]
     ]);
+
+    console.log(data);
 }, false);
