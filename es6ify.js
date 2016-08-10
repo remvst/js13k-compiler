@@ -8,7 +8,6 @@ module.exports = {
         return s;
     },
     'undo': function(s){
-        s = s.replace(new RegExp('\\(([^\\)]*)\\)=>\\{', 'g'), 'function($1){');
-        eval(s);
+        eval(s.replace(/\(([^\)]*)\)=>\{/g, 'function($1){'));
     }
 };

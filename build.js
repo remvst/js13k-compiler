@@ -28,7 +28,7 @@ Promise.all([
     const compiledSource = compile(sourceWithMacros, true);
     const debugSource = compile(sourceWithMacros, false);
 
-    const es6source = es6ify.undo.toString() + '(' + JSON.stringify(es6ify.apply(compiledSource)) + ');';
+    const es6source = '(' + es6ify.undo.toString() + ')(' + JSON.stringify(es6ify.apply(compiledSource)) + ');';
 
     console.log('ES6 / regular = ' + (es6source.length / compiledSource.length));
 
