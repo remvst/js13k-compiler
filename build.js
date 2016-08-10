@@ -7,6 +7,7 @@ const Mustache = require('mustache');
 
 const config = require('./config');
 const compile = require('./compile');
+const es6ify = require('./es6ify');
 
 const MAX_BYTES = 1024 * 13;
 const INJECT_JS_TAG = 'JS_INJECTION_SITE';
@@ -27,15 +28,19 @@ Promise.all([
     const compiledSource = compile(sourceWithMacros, true);
     const debugSource = compile(sourceWithMacros, false);
 
+    const es6source = es6ify.undo.toString() + '(' + JSON.stringify(es6ify.apply(compiledSource)) + ');';
+
+    console.log('ES6 / regular = ' + (es6source.length / compiledSource.length));
+
     console.log('Compiled source is ' + Math.round(compiledSource.length * 100 / source.length) + '% the size of the original source');
 
     const debugHTML = inject(html, '</script><script src="debug.js">', css);
 
-    const finalHTML = minifyHTML(inject(html, compiledSource, css), {
+    const finalHTML = minifyHTML(inject(html, config.OUTPUT.ES6 ? es6source : compiledSource, css), {
         'collapseWhitespace': true,
         'minifyCSS': true,
         'minifyJS': false
-    }).replace(INJECT_JS_TAG, compiledSource);
+    });
 
     // Zip it
     console.log('Creating zip file');

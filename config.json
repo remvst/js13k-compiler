@@ -7,6 +7,7 @@
         "CSS": "sample/src/style.css"
     },
     "OUTPUT": {
+        "ES6": false,
         "HTML": "sample/build/game.html",
         "ZIP": "sample/build/game.zip",
         "DEBUG_HTML": "sample/build/debug.html",
