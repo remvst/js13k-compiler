@@ -40,7 +40,8 @@
         "typeof",
         "instanceof",
         "NaN",
-        "do"
+        "do",
+        "throw"
     ],
     "JS_API": [
         "prototype",

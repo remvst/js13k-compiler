@@ -26,7 +26,7 @@ module.exports = (source, minify, config) => {
     // Replacing names that are too common
     console.log('Building mangling map');
 
-    const mangledNames = analyze(source);
+    const mangledNames = analyze(source, config);
 
     let mangleMap = {};
     let mangleIndex = 0;

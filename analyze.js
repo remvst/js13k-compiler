@@ -1,8 +1,6 @@
 'use strict';
 
-const config = require('./config');
-
-module.exports = (source) => {
+module.exports = (source, config) => {
     const wordList = cleanString(source)
         .split(' ')
         .filter(w => {
