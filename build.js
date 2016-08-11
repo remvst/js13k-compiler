@@ -31,8 +31,8 @@ fsp.readFile(process.argv.length === 3 ? process.argv[2] : './config.json').catc
 
         const sourceWithMacros = applyMacros(source);
 
-        const compiledSource = compile(sourceWithMacros, true);
-        const debugSource = compile(sourceWithMacros, false);
+        const compiledSource = compile(sourceWithMacros, true, config);
+        const debugSource = compile(sourceWithMacros, false, config);
 
         const es6source = '(' + es6ify.undo.toString() + ')(' + JSON.stringify(es6ify.apply(compiledSource)) + ');';
 

@@ -3,11 +3,10 @@
 const uglifyJS = require('uglify-js');
 const packer = require('packer');
 
-const config = require('./config');
 const encodeNumber = require('./encode-number');
 const analyze = require('./analyze');
 
-module.exports = (source, minify) => {
+module.exports = (source, minify, config) => {
     // Replacing constants
     console.log('Replacing constants');
 

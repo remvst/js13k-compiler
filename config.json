@@ -39,7 +39,8 @@
         "default",
         "typeof",
         "instanceof",
-        "NaN"
+        "NaN",
+        "do"
     ],
     "JS_API": [
         "prototype",
