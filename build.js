@@ -16,6 +16,8 @@ const INJECT_JS_TAG = 'JS_INJECTION_SITE';
 const INJECT_CSS_TAG = 'CSS_INJECTION_SITE';
 
 module.exports = config => {
+    const buildStart = Date.now();
+
     console.log(colors.underline('Building'));
 
     // Read all the files
@@ -49,7 +51,7 @@ module.exports = config => {
         });
 
         // Zip it
-        console.log('Creating zip file');
+        console.log(colors.green('Creating zip file...'));
 
         const zipper = new zip();
         zipper.file('index.html', finalHTML);
@@ -60,6 +62,7 @@ module.exports = config => {
         });
 
         // Create all the files
+        console.log(colors.green('Final output...'));
         return Promise.all([
             fsp.writeFile(config.OUTPUT.ZIP, zipData, 'binary'),
             fsp.writeFile(config.OUTPUT.HTML, finalHTML),
@@ -70,15 +73,24 @@ module.exports = config => {
         return fsp.stat(config.OUTPUT.ZIP);
     }).then((stat) => {
         // Log file size
-        const prct = stat.size * 100 / MAX_BYTES;
+        const progress = stat.size / MAX_BYTES;
 
-        console.log('ZIP file size: ' + stat.size + ' bytes (' + Math.round(prct) + '% of max size, ' + (MAX_BYTES - stat.size) + ' bytes remaining)');
+        const meterSize = 50;
+        let meter = '[';
+        for(var i = 0 ; i < meterSize ; i++){
+            meter += (i / meterSize) < progress ? '#' : ' ';
+        }
+        meter += '] ' + Math.round(progress * 100) + '%';
+
+        console.log(meter);
+        console.log('ZIP file size: ' + stat.size + ' bytes (' + (MAX_BYTES - stat.size) + ' bytes remaining)');
 
         if(stat.size > MAX_BYTES){
             console.warn('Size is greater than allowed');
         }
 
-        console.log('Done.');
+        const buildEnd = Date.now();
+        console.log('Done building in ' + (buildEnd - buildStart) + 'ms');
     });
 };
 

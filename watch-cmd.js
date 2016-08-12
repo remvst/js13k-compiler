@@ -1,7 +1,7 @@
 'use strict';
 
-const fs = require('fs');
 const fsp = require('fs-promise');
+const colors = require('colors/safe');
 
 const build = require('./build');
 
@@ -19,15 +19,17 @@ fsp.readFile(process.argv.length === 3 ? process.argv[2] : './config.json').catc
 
         function fileModifiedHandler(file){
             return () => {
-                console.log(file + ' modified');
+                console.log(file + ' modified\n');
 
                 build(config).catch(err => {
                     console.error(err);
+                }).then(() => {
+                    console.log(colors.underline('\nWaiting for file changes...'));
                 });
             };
         }
 
-        console.log('Watching files...');
+        console.log(colors.underline('\nWaiting for file changes...'));
 
         return Promise.all(filesToWatch.map(file => {
             return fsp.watchFile(file, fileModifiedHandler(file));
