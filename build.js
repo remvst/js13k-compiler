@@ -79,9 +79,9 @@ fsp.readFile(process.argv.length === 3 ? process.argv[2] : './config.json').catc
         }
 
         console.log('Done.');
-    }).catch(err => {
-        console.error(err);
     });
+}).catch(err => {
+    console.error(err);
 });
 
 function inject(html, script, style){
