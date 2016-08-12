@@ -6,9 +6,10 @@ const minifyHTML = require('html-minifier').minify;
 const Mustache = require('mustache');
 const colors = require('colors/safe');
 
-const config = require('./config');
-const compile = require('./compile');
+const compress = require('./compress');
 const es6ify = require('./es6ify');
+const applyConstants = require('./apply-constants');
+const applyMacros = require('./apply-macros');
 
 const MAX_BYTES = 1024 * 13;
 const INJECT_JS_TAG = 'JS_INJECTION_SITE';
@@ -27,10 +28,9 @@ module.exports = config => {
         const html = results[1].toString();
         const css = results[2].toString();
 
-        const sourceWithMacros = applyMacros(source);
-
-        const compiledSource = compile(sourceWithMacros, true, config);
-        const debugSource = compile(sourceWithMacros, false, config);
+        const sourceWithMacros = applyMacros(source, config);
+        const sourceWithConstants = applyConstants(sourceWithMacros, config);
+        const compiledSource = compress(sourceWithConstants, config);
 
         const es6source = '(' + es6ify.undo.toString() + ')(' + JSON.stringify(es6ify.apply(compiledSource)) + ');';
 
@@ -62,7 +62,7 @@ module.exports = config => {
             fsp.writeFile(config.OUTPUT.ZIP, zipData, 'binary'),
             fsp.writeFile(config.OUTPUT.HTML, finalHTML),
             fsp.writeFile(config.OUTPUT.DEBUG_HTML, debugHTML),
-            fsp.writeFile(config.OUTPUT.DEBUG_JS, debugSource)
+            fsp.writeFile(config.OUTPUT.DEBUG_JS, sourceWithConstants)
         ]);
     }).then(() => {
         return fsp.stat(config.OUTPUT.ZIP);
@@ -87,66 +87,4 @@ function inject(html, script, style){
     view[INJECT_CSS_TAG] = style;
 
     return Mustache.render(html, view);
-}
-
-
-function applyMacros(source){
-    console.log(colors.green('Applying macros...'));
-
-    for(let macroId in config.MACROS){
-        const macro = require('./macros/' + config.MACROS[macroId]);
-
-        const undoName = 'revert' + macroId.substr(0, 1).toUpperCase() + macroId.substr(1);
-        const undoCode = macro.revert.toString().replace(/function/, 'function ' + undoName);
-
-        source = undoCode + '\n\n' + source;
-
-        let characterDiff = undoCode.length;
-
-        const regex = new RegExp(macroId + '\\(', 'g');
-
-        while(true){
-            const match = regex.exec(source);
-
-            if(!match){
-                break;
-            }
-
-            const matchStart = match.index;
-
-            let lvl = 1;
-            let i = matchStart + (macroId + '(').length + 1;
-            while(lvl > 0 && i < source.length){
-                if(source.charAt(i) === '('){
-                    lvl++;
-                }else if(source.charAt(i) === ')'){
-                    lvl--;
-                }
-
-                i++;
-            }
-
-            const matchEnd = i;
-
-            const contentStart = matchStart + (macroId + '(').length;
-            const contentEnd = matchEnd - 1;
-
-            const content = source.substring(contentStart, contentEnd);
-
-            const modifiedContent = macro.apply(content);
-
-            characterDiff += modifiedContent.length - JSON.stringify(content).length;
-
-            const sourceBefore = source.substring(0, matchStart);
-            const sourceAfter = source.substring(matchEnd);
-
-            source = sourceBefore + undoName + '(' + modifiedContent + ')' + sourceAfter;
-        }
-
-        const color = characterDiff > 0 ? colors.red : colors.green;
-
-        console.log('- ' + macroId + ': ' + color(characterDiff + ' chars'));
-    }
-
-    return source;
 }
