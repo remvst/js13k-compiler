@@ -15,7 +15,7 @@ module.exports = (source, config) => {
             return protectedNames.dom.indexOf(w) === -1;
         })
         .filter(w => {
-            return config.SKIP.indexOf(w) === -1;
+            return config.SKIP_MANGLING.indexOf(w) === -1;
         });
 
     const counts = countList(wordList).sort((a, b) => {
