@@ -4,6 +4,7 @@ const fsp = require('fs-promise');
 const zip = require('node-zip');
 const minifyHTML = require('html-minifier').minify;
 const Mustache = require('mustache');
+const colors = require('colors/safe');
 
 const config = require('./config');
 const compile = require('./compile');
@@ -14,6 +15,8 @@ const INJECT_JS_TAG = 'JS_INJECTION_SITE';
 const INJECT_CSS_TAG = 'CSS_INJECTION_SITE';
 
 module.exports = config => {
+    console.log(colors.underline('Building'));
+
     // Read all the files
     return Promise.all([
         Promise.all(config.INPUT.JS.map(file => fsp.readFile(file))),
@@ -88,9 +91,9 @@ function inject(html, script, style){
 
 
 function applyMacros(source){
-    for(let macroId in config.MACROS){
-        console.log('Applying macro: ' + macroId);
+    console.log(colors.green('Applying macros...'));
 
+    for(let macroId in config.MACROS){
         const macro = require('./macros/' + config.MACROS[macroId]);
 
         const undoName = 'revert' + macroId.substr(0, 1).toUpperCase() + macroId.substr(1);
@@ -140,7 +143,9 @@ function applyMacros(source){
             source = sourceBefore + undoName + '(' + modifiedContent + ')' + sourceAfter;
         }
 
-        console.log('Character difference: ' + characterDiff + ' chars');
+        const color = characterDiff > 0 ? colors.red : colors.green;
+
+        console.log('- ' + macroId + ': ' + color(characterDiff + ' chars'));
     }
 
     return source;

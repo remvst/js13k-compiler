@@ -2,21 +2,27 @@
 
 const uglifyJS = require('uglify-js');
 const packer = require('packer');
+const colors = require('colors/safe');
 
 const encodeNumber = require('./encode-number');
 const analyze = require('./analyze');
 
 module.exports = (source, minify, config) => {
     // Replacing constants
-    console.log('Replacing constants');
+    console.log(colors.green('Replacing constants...'));
 
     for(let constant in config.CONSTANTS){
-        let value = config.CONSTANTS[constant];
-        let regex = new RegExp('\\b' + constant + '\\b', 'g');
+        const value = config.CONSTANTS[constant];
+        const regex = new RegExp('\\b' + constant + '\\b', 'g');
 
+        const lengthBefore = source.length;
         source = source.replace(regex, JSON.stringify(value));
+        const lengthAfter = source.length;
 
-        console.log(constant + ' -> ' + value);
+        const characterDiff = lengthAfter - lengthBefore;
+        const color = characterDiff > 0 ? colors.red : colors.green;
+
+        console.log('- ' + constant + ' -> ' + value + ' : ' + color(characterDiff));
     }
 
     if(!minify){
@@ -24,7 +30,7 @@ module.exports = (source, minify, config) => {
     }
 
     // Replacing names that are too common
-    console.log('Building mangling map');
+    console.log(colors.green('Mangling names...'));
 
     const mangledNames = analyze(source, config);
 
@@ -53,12 +59,13 @@ module.exports = (source, minify, config) => {
         source = source.replace(regex, mangled);
         const lengthAfter = source.length;
 
-        console.log(word + ' -> ' + mangled + ' (' + (lengthAfter - lengthBefore) + ' chars)');
+        const characterDiff = lengthAfter - lengthBefore;
+        const color = characterDiff > 0 ? colors.red : colors.green;
+
+        console.log('- ' + word + ' -> ' + mangled + ' : ' + color(characterDiff));
     }
 
-    const commonNamesAfter = analyze(source, config);
-
-    console.log('Common names after mangling: ' + commonNamesAfter.join(', '));
+    console.log(colors.green('Uglifying...'));
 
     const uglified = uglifyJS.minify(source, {
         fromString: true,
@@ -71,6 +78,8 @@ module.exports = (source, minify, config) => {
             }
         }
     });
+
+    console.log(colors.green('Packing...'));
 
     const packed = packer.pack(uglified.code, true, true);
 
