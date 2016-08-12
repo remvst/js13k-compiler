@@ -4,7 +4,7 @@
   "description": "Compiler designed for the JS13K game development contest.",
   "main": "analyzer.js",
   "scripts": {
-      "build": "node build.js"
+      "build": "node build-cmd.js"
   },
   "author": "Rémi Vansteelandt",
   "license": "ISC",

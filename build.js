@@ -13,12 +13,7 @@ const MAX_BYTES = 1024 * 13;
 const INJECT_JS_TAG = 'JS_INJECTION_SITE';
 const INJECT_CSS_TAG = 'CSS_INJECTION_SITE';
 
-fsp.readFile(process.argv.length === 3 ? process.argv[2] : './config.json').catch(err => {
-    console.error(err);
-    process.exit(1);
-}).then(data => {
-    const config = JSON.parse(data.toString());
-
+module.exports = config => {
     // Read all the files
     return Promise.all([
         Promise.all(config.INPUT.JS.map(file => fsp.readFile(file))),
@@ -80,9 +75,7 @@ fsp.readFile(process.argv.length === 3 ? process.argv[2] : './config.json').catc
 
         console.log('Done.');
     });
-}).catch(err => {
-    console.error(err);
-});
+};
 
 function inject(html, script, style){
     const view = {};
