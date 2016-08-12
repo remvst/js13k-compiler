@@ -19,5 +19,6 @@
     "CONSTANTS": {
         "MY_AWESOME_CONSTANT": 3.14
     },
-    "SKIP_MANGLING": []
+    "SKIP_MANGLING": [],
+    "VERBOSE": true
 }

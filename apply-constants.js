@@ -17,7 +17,9 @@ module.exports = (source, config) => {
         const characterDiff = lengthAfter - lengthBefore;
         const color = characterDiff > 0 ? colors.red : colors.green;
 
-        console.log('- ' + constant + ' -> ' + value + ' : ' + color(characterDiff));
+        if(config.VERBOSE){
+            console.log('- ' + constant + ' -> ' + value + ' : ' + color(characterDiff));
+        }
     }
 
     return source;

@@ -57,7 +57,9 @@ module.exports = (source, config) => {
 
         const color = characterDiff > 0 ? colors.red : colors.green;
 
-        console.log('- ' + macroId + ': ' + color(characterDiff + ' chars'));
+        if(config.VERBOSE){
+            console.log('- ' + macroId + ': ' + color(characterDiff + ' chars'));
+        }
     }
 
     return source;

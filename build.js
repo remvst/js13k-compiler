@@ -34,9 +34,11 @@ module.exports = config => {
 
         const es6source = '(' + es6ify.undo.toString() + ')(' + JSON.stringify(es6ify.apply(compiledSource)) + ');';
 
-        console.log('ES6 / regular = ' + (es6source.length / compiledSource.length));
+        if(config.VERBOSE){
+            console.log('ES6 / regular = ' + (es6source.length / compiledSource.length));
 
-        console.log('Compiled source is ' + Math.round(compiledSource.length * 100 / source.length) + '% the size of the original source');
+            console.log('Compiled source is ' + Math.round(compiledSource.length * 100 / source.length) + '% the size of the original source');
+        }
 
         const debugHTML = inject(html, '</script><script src="debug.js">', css);
 
