@@ -24,7 +24,9 @@
         "instanceof",
         "NaN",
         "do",
-        "throw"
+        "throw",
+        "try",
+        "catch"
     ],
     "dom": [
         "$&",

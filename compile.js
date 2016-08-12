@@ -28,7 +28,7 @@ module.exports = (source, minify, config) => {
 
     const mangledNames = analyze(source, config);
 
-    let mangleMap = {};
+    const mangleMap = {};
     let mangleIndex = 0;
     mangledNames.forEach((name) => {
         let matches;
@@ -41,10 +41,6 @@ module.exports = (source, minify, config) => {
             matches = source.match(regex) || [];
 
             mangleIndex++;
-
-            if(matches.length > 0){
-                console.log('Skipping ' + mangled);
-            }
         }while(matches.length > 0);
     });
 
@@ -59,6 +55,10 @@ module.exports = (source, minify, config) => {
 
         console.log(word + ' -> ' + mangled + ' (' + (lengthAfter - lengthBefore) + ' chars)');
     }
+
+    const commonNamesAfter = analyze(source, config);
+
+    console.log('Common names after mangling: ' + commonNamesAfter.join(', '));
 
     const uglified = uglifyJS.minify(source, {
         fromString: true,
