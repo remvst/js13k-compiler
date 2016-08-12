@@ -24,11 +24,13 @@ module.exports = config => {
     return Promise.all([
         Promise.all(config.INPUT.JS.map(file => fsp.readFile(file))),
         fsp.readFile(config.INPUT.HTML),
-        fsp.readFile(config.INPUT.CSS)
+        fsp.readFile(config.INPUT.CSS),
+        fsp.readFile(__dirname + '/node_modules/reload/lib/reload-client.js')
     ]).then(results => {
         const source = results[0].join('\n');
         const html = results[1].toString();
         const css = results[2].toString();
+        const reloadFile = results[3].toString();
 
         const sourceWithMacros = applyMacros(source, config);
         const sourceWithConstants = applyConstants(sourceWithMacros, config);
@@ -42,9 +44,9 @@ module.exports = config => {
             console.log('Compiled source is ' + Math.round(compiledSource.length * 100 / source.length) + '% the size of the original source');
         }
 
-        const debugHTML = inject(html, '</script><script src="debug.js">', css);
+        const debugHTML = inject(html, reloadFile + '</script><script src="debug.js">', css);
 
-        const finalHTML = minifyHTML(inject(html, config.OUTPUT.ES6 ? es6source : compiledSource, css), {
+        const finalHTML = minifyHTML(inject(html, config.ES6 ? es6source : compiledSource, css), {
             'collapseWhitespace': true,
             'minifyCSS': true,
             'minifyJS': false
@@ -64,13 +66,13 @@ module.exports = config => {
         // Create all the files
         console.log(colors.green('Final output...'));
         return Promise.all([
-            fsp.writeFile(config.OUTPUT.ZIP, zipData, 'binary'),
-            fsp.writeFile(config.OUTPUT.HTML, finalHTML),
-            fsp.writeFile(config.OUTPUT.DEBUG_HTML, debugHTML),
-            fsp.writeFile(config.OUTPUT.DEBUG_JS, sourceWithConstants)
+            fsp.writeFile(config.OUTPUT_DIR + '/game.zip', zipData, 'binary'),
+            fsp.writeFile(config.OUTPUT_DIR + '/game.html', finalHTML),
+            fsp.writeFile(config.OUTPUT_DIR + '/debug.html', debugHTML),
+            fsp.writeFile(config.OUTPUT_DIR + '/debug.js', sourceWithConstants)
         ]);
     }).then(() => {
-        return fsp.stat(config.OUTPUT.ZIP);
+        return fsp.stat(config.OUTPUT_DIR + '/game.zip');
     }).then((stat) => {
         // Log file size
         const progress = stat.size / MAX_BYTES;

@@ -16,11 +16,10 @@ fsp.readFile(process.argv.length === 3 ? process.argv[2] : './config.json').catc
 
     const app = express();
     app.set('port', 1234);
+    app.use('/', express.static(config.OUTPUT_DIR));
 
     const server = http.createServer(app);
-
     const reloader = reload(server, app);
-
 
     server.listen(app.get('port'), () => {
         console.log(colors.underline('Reload server is running on port ' + app.get('port') + '\n'));
