@@ -20,7 +20,7 @@ fsp.readFile(process.argv.length === 3 ? process.argv[2] : './config.json').catc
     const config = JSON.parse(data.toString());
 
     // Read all the files
-    Promise.all([
+    return Promise.all([
         Promise.all(config.INPUT.JS.map(file => fsp.readFile(file))),
         fsp.readFile(config.INPUT.HTML),
         fsp.readFile(config.INPUT.CSS)

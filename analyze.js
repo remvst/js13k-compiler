@@ -1,5 +1,7 @@
 'use strict';
 
+const protectedNames = require('./protected-names');
+
 module.exports = (source, config) => {
     const wordList = cleanString(source)
         .split(' ')
@@ -7,10 +9,10 @@ module.exports = (source, config) => {
             return w.length >= 2 && /^[a-z]/i.test(w);
         })
         .filter(w => {
-            return config.JS_KEYWORDS.indexOf(w) === -1;
+            return protectedNames.keywords.indexOf(w) === -1;
         })
         .filter(w => {
-            return config.JS_API.indexOf(w) === -1;
+            return protectedNames.dom.indexOf(w) === -1;
         })
         .filter(w => {
             return config.SKIP.indexOf(w) === -1;
