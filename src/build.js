@@ -5,6 +5,7 @@ const zip = require('node-zip');
 const minifyHTML = require('html-minifier').minify;
 const Mustache = require('mustache');
 const colors = require('colors/safe');
+const path = require('path');
 
 const compress = require('./compress');
 const es6ify = require('./es6ify');
@@ -44,7 +45,10 @@ module.exports = config => {
             console.log('Compiled source is ' + Math.round(compiledSource.length * 100 / source.length) + '% the size of the original source');
         }
 
-        const debugHTML = inject(html, reloadFile + '</script><script src="debug.js">', css);
+        const debugHTMLDir = path.dirname(config.OUTPUT.DEBUG_HTML);
+        const debugJSPathFromHTML = path.relative(debugHTMLDir, config.OUTPUT.DEBUG_JS);
+
+        const debugHTML = inject(html, reloadFile + '</script><script src="' + debugJSPathFromHTML + '.js">', css);
 
         const finalHTML = minifyHTML(inject(html, config.ES6 ? es6source : compiledSource, css), {
             'collapseWhitespace': true,
@@ -66,13 +70,13 @@ module.exports = config => {
         // Create all the files
         console.log(colors.green('Final output...'));
         return Promise.all([
-            fsp.writeFile(config.OUTPUT_DIR + '/game.zip', zipData, 'binary'),
-            fsp.writeFile(config.OUTPUT_DIR + '/game.html', finalHTML),
-            fsp.writeFile(config.OUTPUT_DIR + '/debug.html', debugHTML),
-            fsp.writeFile(config.OUTPUT_DIR + '/debug.js', sourceWithConstants)
+            fsp.writeFile(config.OUTPUT.ZIP, zipData, 'binary'),
+            fsp.writeFile(config.OUTPUT.HTML, finalHTML),
+            fsp.writeFile(config.OUTPUT.DEBUG_HTML, debugHTML),
+            fsp.writeFile(config.OUTPUT.DEBUG_JS, sourceWithConstants)
         ]);
     }).then(() => {
-        return fsp.stat(config.OUTPUT_DIR + '/game.zip');
+        return fsp.stat(config.OUTPUT.ZIP);
     }).then((stat) => {
         // Log file size
         const progress = stat.size / MAX_BYTES;

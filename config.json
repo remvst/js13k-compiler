@@ -6,8 +6,13 @@
         "HTML": "sample/src/index.html",
         "CSS": "sample/src/style.css"
     },
-    "OUTPUT_DIR": "sample/build",
-    "ES6": false,
+    "OUTPUT": {
+        "ES6": false,
+        "HTML": "sample/build/game.html",
+        "ZIP": "sample/build/game.zip",
+        "DEBUG_HTML": "sample/build/debug.html",
+        "DEBUG_JS": "sample/build/debug.js"
+    },
     "MACROS": {
         "matrix": "matrix"
     },
