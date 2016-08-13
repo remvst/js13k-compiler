@@ -59,6 +59,8 @@ fsp.readFile(argv._[0]).catch(err => {
                         reloader.reload();
 
                         console.log(colors.underline('\nWaiting for file changes...'));
+                    }).catch(err => {
+                        console.error(err);
                     });
                 };
             }
