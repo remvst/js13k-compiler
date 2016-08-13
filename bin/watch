@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 'use strict';
 
 const fsp = require('fs-promise');
@@ -6,7 +8,7 @@ const express = require('express');
 const http = require('http');
 const reload = require('reload');
 
-const build = require('./build');
+const build = require('../build');
 
 fsp.readFile(process.argv.length === 3 ? process.argv[2] : './config.json').catch(err => {
     console.error(err);

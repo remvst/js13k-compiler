@@ -4,8 +4,8 @@
   "description": "Compiler designed for the JS13K game development contest.",
   "main": "analyzer.js",
   "scripts": {
-    "build": "node build-cmd.js",
-    "watch": "node watch-cmd.js"
+    "build": "bin/build",
+    "watch": "bin/watch"
   },
   "author": "Rémi Vansteelandt",
   "license": "ISC",
