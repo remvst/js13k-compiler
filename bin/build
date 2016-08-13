@@ -33,6 +33,8 @@ fsp.readFile(argv._[0]).catch(err => {
         app.set('port', argv.port || 8080);
         app.use('/debug.html', express.static(config.OUTPUT.DEBUG_HTML));
         app.use('/debug.js', express.static(config.OUTPUT.DEBUG_JS));
+        app.use('/game.html', express.static(config.OUTPUT.HTML));
+        app.use('/reload.js', express.static(config.OUTPUT.DEBUG_HTML));
 
         const server = http.createServer(app);
         const reloader = reload(server, app);

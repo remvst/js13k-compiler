@@ -48,7 +48,7 @@ module.exports = config => {
         const debugHTMLDir = path.dirname(config.OUTPUT.DEBUG_HTML);
         const debugJSPathFromHTML = path.relative(debugHTMLDir, config.OUTPUT.DEBUG_JS);
 
-        const debugHTML = inject(html, reloadFile + '</script><script src="' + debugJSPathFromHTML + '">', css);
+        const debugHTML = inject(html, '</script><script src="/reload/reload.js"></script><script src="' + debugJSPathFromHTML + '">', css);
 
         const finalHTML = minifyHTML(inject(html, config.ES6 ? es6source : compiledSource, css), {
             'collapseWhitespace': true,
