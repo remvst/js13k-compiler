@@ -24,7 +24,7 @@ fsp.readFile(argv._[0]).catch(err => {
 }).then(data => {
     const config = JSON.parse(data.toString());
 
-    build(config).then(() => {
+    return build(config).then(() => {
         if(!argv.watch){
             process.exit(0);
         }
