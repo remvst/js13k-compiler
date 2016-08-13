@@ -30,7 +30,7 @@ fsp.readFile(argv._[0]).catch(err => {
         }
 
         const app = express();
-        app.set('port', 1234);
+        app.set('port', argv.port || 8080);
         app.use('/debug.html', express.static(__dirname + '/../sample/src/index.html'));
         app.use('/debug.js', express.static(__dirname + '/../sample/src/index.html'));
 
