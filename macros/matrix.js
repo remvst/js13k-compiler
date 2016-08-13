@@ -19,7 +19,9 @@ module.exports = {
     },
     'revert': function(s){
         return s.split(',').map(function(r){
-            return r.split('');
+            return r.split('').map(function(v){
+                return parseInt(v);
+            });
         });
     }
 };
