@@ -11,6 +11,7 @@ const compress = require('./compress');
 const es6ify = require('./es6ify');
 const applyConstants = require('./apply-constants');
 const applyMacros = require('./apply-macros');
+const scriptInjector = require('./script-injector');
 
 const MAX_BYTES = 1024 * 13;
 const INJECT_JS_TAG = 'JS_INJECTION_SITE';
@@ -25,13 +26,11 @@ module.exports = config => {
     return Promise.all([
         Promise.all(config.INPUT.JS.map(file => fsp.readFile(file))),
         fsp.readFile(config.INPUT.HTML),
-        fsp.readFile(config.INPUT.CSS),
-        fsp.readFile(__dirname + '/../node_modules/reload/lib/reload-client.js')
+        fsp.readFile(config.INPUT.CSS)
     ]).then(results => {
         const source = results[0].join('\n');
         const html = results[1].toString();
         const css = results[2].toString();
-        const reloadFile = results[3].toString();
 
         const sourceWithMacros = applyMacros(source, config);
         const sourceWithConstants = applyConstants(sourceWithMacros, config);
@@ -48,7 +47,12 @@ module.exports = config => {
         const debugHTMLDir = path.dirname(config.OUTPUT.DEBUG_HTML);
         const debugJSPathFromHTML = path.relative(debugHTMLDir, config.OUTPUT.DEBUG_JS);
 
-        const debugHTML = inject(html, '</script><script src="/reload/reload.js"></script><script src="' + debugJSPathFromHTML + '">', css);
+        const debugScript = scriptInjector([
+            '/reload/reload.js',
+            debugJSPathFromHTML
+        ]);
+
+        const debugHTML = inject(html, debugScript, css);
 
         const finalHTML = minifyHTML(inject(html, config.ES6 ? es6source : compiledSource, css), {
             'collapseWhitespace': true,
