@@ -25,7 +25,7 @@ module.exports = config => {
         Promise.all(config.INPUT.JS.map(file => fsp.readFile(file))),
         fsp.readFile(config.INPUT.HTML),
         fsp.readFile(config.INPUT.CSS),
-        fsp.readFile(__dirname + '/node_modules/reload/lib/reload-client.js')
+        fsp.readFile(__dirname + '/../node_modules/reload/lib/reload-client.js')
     ]).then(results => {
         const source = results[0].join('\n');
         const html = results[1].toString();

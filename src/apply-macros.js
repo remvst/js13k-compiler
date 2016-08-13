@@ -6,7 +6,7 @@ module.exports = (source, config) => {
     console.log(colors.green('Applying macros...'));
 
     for(let macroId in config.MACROS){
-        const macro = require('./macros/' + config.MACROS[macroId]);
+        const macro = require('../macros/' + config.MACROS[macroId]);
 
         const undoName = 'revert' + macroId.substr(0, 1).toUpperCase() + macroId.substr(1);
         const undoCode = macro.revert.toString().replace(/function/, 'function ' + undoName);

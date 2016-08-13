@@ -1,6 +1,6 @@
 'use strict';
 
-const protectedNames = require('./protected-names');
+const protectedNames = require('../data/protected-names');
 
 module.exports = (source, config) => {
     const wordList = cleanString(source)

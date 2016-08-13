@@ -8,7 +8,7 @@ const express = require('express');
 const http = require('http');
 const reload = require('reload');
 
-const build = require('../build');
+const build = require('../src/build');
 
 fsp.readFile(process.argv.length === 3 ? process.argv[2] : './config.json').catch(err => {
     console.error(err);
