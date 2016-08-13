@@ -31,8 +31,8 @@ fsp.readFile(argv._[0]).catch(err => {
 
         const app = express();
         app.set('port', argv.port || 8080);
-        app.use('/debug.html', express.static(__dirname + '/../sample/src/index.html'));
-        app.use('/debug.js', express.static(__dirname + '/../sample/src/index.html'));
+        app.use('/debug.html', express.static(config.OUTPUT.DEBUG_HTML));
+        app.use('/debug.js', express.static(config.OUTPUT.DEBUG_JS));
 
         const server = http.createServer(app);
         const reloader = reload(server, app);
