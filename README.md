@@ -15,6 +15,6 @@ Clone the repository, then run `npm install`.
 
 ## Usage
 
-In `config.json`, set the `INPUT` and `OUTPUT` options, then run `npm run build`.
+See the `samples/` directory for an example config file, as well the expected input/output.
 
-See the `samples/` directory to see the expected input/output.
+Create a config file, then run `bin/build your-config.json`.
