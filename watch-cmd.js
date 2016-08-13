@@ -23,6 +23,8 @@ fsp.readFile(process.argv.length === 3 ? process.argv[2] : './config.json').catc
 
     server.listen(app.get('port'), () => {
         console.log(colors.underline('Reload server is running on port ' + app.get('port') + '\n'));
+        console.log('Debug: http://localhost:' + app.get('port') + '/debug.html');
+        console.log('Game: http://localhost:' + app.get('port') + '/game.html\n');
 
         build(config).then(() => {
             const filesToWatch = [
