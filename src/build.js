@@ -32,9 +32,9 @@ module.exports = config => {
         const html = results[1].toString();
         const css = results[2].toString();
 
-        const sourceWithMacros = applyMacros(source, config);
-        const sourceWithConstants = applyConstants(sourceWithMacros, config);
-        const compiledSource = compress(sourceWithConstants, config);
+        const sourceWithConstants = applyConstants(source, config);
+        const sourceWithMacros = applyMacros(sourceWithConstants, config);
+        const compiledSource = compress(sourceWithMacros, config);
 
         const es6source = '(' + es6ify.undo.toString() + ')(' + JSON.stringify(es6ify.apply(compiledSource)) + ');';
 
@@ -77,7 +77,7 @@ module.exports = config => {
             fsp.writeFile(config.OUTPUT.ZIP, zipData, 'binary'),
             fsp.writeFile(config.OUTPUT.HTML, finalHTML),
             fsp.writeFile(config.OUTPUT.DEBUG_HTML, debugHTML),
-            fsp.writeFile(config.OUTPUT.DEBUG_JS, sourceWithConstants)
+            fsp.writeFile(config.OUTPUT.DEBUG_JS, sourceWithMacros)
         ]);
     }).then(() => {
         return fsp.stat(config.OUTPUT.ZIP);
