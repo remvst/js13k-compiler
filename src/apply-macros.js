@@ -9,7 +9,7 @@ module.exports = (source, config) => {
         const macro = require('../macros/' + config.MACROS[macroId]);
 
         const undoName = 'revert' + macroId.substr(0, 1).toUpperCase() + macroId.substr(1);
-        const undoCode = macro.revert.toString().replace(/function/, 'function ' + undoName);
+        const undoCode = macro.revert ? macro.revert.toString().replace(/function/, 'function ' + undoName) : '';
 
         source = undoCode + '\n\n' + source;
 
@@ -52,7 +52,11 @@ module.exports = (source, config) => {
             const sourceBefore = source.substring(0, matchStart);
             const sourceAfter = source.substring(matchEnd);
 
-            source = sourceBefore + undoName + '(' + modifiedContent + ')' + sourceAfter;
+            if(undoCode){
+                source = sourceBefore + undoName + '(' + modifiedContent + ')' + sourceAfter;
+            }else{
+                source = sourceBefore + modifiedContent + sourceAfter;
+            }
         }
 
         const color = characterDiff > 0 ? colors.red : colors.green;
