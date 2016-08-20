@@ -4,6 +4,7 @@ const colors = require('colors/safe');
 
 const encodeNumber = require('./encode-number');
 const analyze = require('./analyze');
+const split = require('./split');
 
 module.exports = (source, config) => {
     // Replacing names that are too common
@@ -27,16 +28,24 @@ module.exports = (source, config) => {
         }while(matches.length > 0);
     });
 
+    const components = split.split(source);
+    const nonStringComponents = components.filter((component) => {
+        return !component.isString;
+    });
+
     for(let word in mangleMap){
         const mangled = mangleMap[word];
 
         const regex = new RegExp('\\b' + word + '\\b', 'g');
 
-        const lengthBefore = source.length;
-        source = source.replace(regex, mangled);
-        const lengthAfter = source.length;
+        let characterDiff = 0;
+        nonStringComponents.forEach((component) => {
+            const lengthBefore = component.content.length;
+            component.content = component.content.replace(regex, mangled);
+            const lengthAfter = component.content.length;
+            characterDiff += lengthAfter - lengthBefore;
+        });
 
-        const characterDiff = lengthAfter - lengthBefore;
         const color = characterDiff > 0 ? colors.red : colors.green;
 
         if(config.VERBOSE){
@@ -44,5 +53,5 @@ module.exports = (source, config) => {
         }
     }
 
-    return source;
+    return split.join(components);
 };
