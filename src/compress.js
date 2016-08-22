@@ -4,11 +4,7 @@ const uglifyJS = require('uglify-js');
 const packer = require('packer');
 const colors = require('colors/safe');
 
-const mangleNames = require('./mangle-names');
-
-module.exports = (source, config) => {
-    source = mangleNames(source, config);
-
+module.exports = (source) => {
     console.log(colors.green('Uglifying...'));
 
     const uglified = uglifyJS.minify(source, {

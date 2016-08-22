@@ -11,7 +11,8 @@
         "HTML": "sample/build/game.html",
         "ZIP": "sample/build/game.zip",
         "DEBUG_HTML": "sample/build/debug.html",
-        "DEBUG_JS": "sample/build/debug.js"
+        "DEBUG_JS": "sample/build/debug.js",
+        "DEBUG_MANGLED_JS": "sample/build/debug_mangled.js"
     },
     "MACROS": {
         "matrix": "matrix"
