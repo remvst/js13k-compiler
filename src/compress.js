@@ -4,7 +4,7 @@ const uglifyJS = require('uglify-js');
 const packer = require('packer');
 const colors = require('colors/safe');
 
-module.exports = (source) => {
+module.exports = (source, config) => {
     console.log(colors.green('Uglifying...'));
 
     const uglified = uglifyJS.minify(source, {
@@ -18,6 +18,10 @@ module.exports = (source) => {
             }
         }
     });
+
+    if(!config.OUTPUT.PACK){
+        return uglified.code;
+    }
 
     console.log(colors.green('Packing...'));
 

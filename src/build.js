@@ -43,7 +43,7 @@ module.exports = config => {
         const debugSourceWithMacros = applyMacros(debugSourceWithConstants, config);
 
         const mangledSource = mangleNames(sourceWithMacros, config);
-        const compiledSource = compress(mangledSource);
+        const compiledSource = compress(mangledSource, config);
 
         const es6source = '(' + es6ify.undo.toString() + ')(' + JSON.stringify(es6ify.apply(compiledSource)) + ');';
 
