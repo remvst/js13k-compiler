@@ -63,7 +63,7 @@ module.exports = config => {
 
         const debugHTML = inject(html, debugScript, css);
 
-        const finalHTML = minifyHTML(inject(html, config.ES6 ? es6source : compiledSource, css), {
+        const finalHTML = minifyHTML(inject(html, config.OUTPUT.ES6 ? es6source : compiledSource, css), {
             'collapseWhitespace': true,
             'minifyCSS': true,
             'minifyJS': false
