@@ -6,35 +6,27 @@ module.exports = {
     'split': (s, start) => {
         start = start || 0;
 
-        const minIndex = s.indexOf(module.exports.START_TAG, start);
+        const res = [];
+        s.split(module.exports.START_TAG).forEach(function(component, i){
+            var spl = component.split(module.exports.END_TAG);
+            if(i > 0){
+                res.push({
+                    'content': spl[0],
+                    'isString': true
+                });
+                res.push({
+                    'content': spl[1],
+                    'isString': false
+                });
+            }else{
+                res.push({
+                    'content': spl[0],
+                    'isString': false
+                });
+            }
+        });
 
-        if(minIndex === -1){
-            return [{
-                'content': s.substring(start),
-                'isString': false
-            }];
-        }
-
-        const indexAfter = s.indexOf(module.exports.END_TAG, minIndex + 1);
-
-        if(indexAfter === -1){
-            throw new Error('Unmatched "' + module.exports.END_TAG + '"');
-        }
-
-        const contentBeforeString = s.substring(start, minIndex);
-        const stringComponent = s.substring(minIndex, indexAfter + module.exports.END_TAG.length);
-
-        const res = [{
-            'content': contentBeforeString,
-            'isString': false
-        }, {
-            'content': stringComponent,
-            'isString': true
-        }];
-
-        const resAfter = module.exports.split(s, indexAfter + module.exports.END_TAG.length);
-
-        return res.concat(resAfter);
+        return res;
     },
     'join': (components) => {
         return components.map((component) => {
