@@ -6,7 +6,7 @@ module.exports = (source, config) => {
     const wordList = cleanString(source)
         .split(' ')
         .filter(w => {
-            return w.length >= 2 && /^[a-z]/i.test(w);
+            return w.length >= 2 && /^[$_a-z]/i.test(w);
         })
         .filter(w => {
             return protectedNames.keywords.indexOf(w) === -1;
@@ -45,7 +45,7 @@ function cleanString(s){
     s = s.replace(/#[0-9a-f]{3}/gi, ' ');
 
     // Eliminate all the non-word stuff
-    s = s.replace(/[^a-z0-9]+/gi, ' ');
+    s = s.replace(/[^a-z0-9_$]+/gi, ' ');
 
     return s;
 }
