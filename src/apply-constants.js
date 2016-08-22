@@ -11,7 +11,7 @@ module.exports = (source, config) => {
         const regex = new RegExp('\\b' + constant + '\\b', 'g');
 
         const lengthBefore = source.length;
-        source = source.replace(regex, JSON.stringify(value));
+        source = source.replace(regex, value);
         const lengthAfter = source.length;
 
         const characterDiff = lengthAfter - lengthBefore;

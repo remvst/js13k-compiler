@@ -1,5 +1,7 @@
 'use strict';
 
+const stripComments = require('strip-comments');
+
 const protectedNames = require('../data/protected-names');
 
 module.exports = (source, config) => {
@@ -34,7 +36,7 @@ module.exports = (source, config) => {
 
 function cleanString(s){
     // Eliminate comments
-    s = s.replace(/\/\/.*\n/g, '\n');
+    s = stripComments(s);
 
     // Eliminate strings
     s = s.replace(/'.*'/g, ' ');
