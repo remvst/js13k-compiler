@@ -1,31 +1,45 @@
 'use strict';
 
 const colors = require('colors/safe');
+const stripComments = require('strip-comments');
 
 const encodeNumber = require('./encode-number');
 const analyze = require('./analyze');
 const split = require('./split');
+
+function hasMatch(lines, mangled){
+    const regex = new RegExp('\\b' + mangled + '\\b', 'g');
+
+    for(var i = 0 ; i < lines.length ; i++){
+        const matches = lines[i].match(regex) || [];
+
+        if(matches.length){
+            return true;
+        }
+    }
+
+    return false;
+}
 
 module.exports = (source, config) => {
     // Replacing names that are too common
     console.log(colors.green('Mangling names...'));
 
     const mangledNames = analyze(source, config);
+    const lines = stripComments(source).split('\n'); // stripping the comments to avoid detecting inexistent conflicts
 
     const mangleMap = {};
     let mangleIndex = 0;
     mangledNames.forEach((name) => {
-        let matches;
-        do{
-            const mangled = encodeNumber(mangleIndex);
+        while(true){
+            const mangled = encodeNumber(mangleIndex++);
             mangleMap[name] = mangled;
 
             // Check if the mangled name is already in the original source
-            const regex = new RegExp('\\b' + mangled + '\\b', 'g');
-            matches = source.match(regex) || [];
-
-            mangleIndex++;
-        }while(matches.length > 0);
+            if(!hasMatch(lines, mangled)){
+                break;
+            }
+        }
     });
 
     const components = split.split(source);
