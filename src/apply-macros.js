@@ -9,9 +9,9 @@ module.exports = (source, config) => {
         const macro = require('../macros/' + config.MACROS[macroId]);
 
         const undoName = 'revert' + macroId.substr(0, 1).toUpperCase() + macroId.substr(1);
-        const undoCode = macro.revert ? macro.revert.toString().replace(/function/, 'function ' + undoName) : '';
+        const undoCode = macro.revert ? macro.revert.toString().replace(/function/, 'function ' + undoName) + '\n\n' : '';
 
-        source = undoCode + '\n\n' + source;
+        source = undoCode + source;
 
         let characterDiff = undoCode.length;
 
