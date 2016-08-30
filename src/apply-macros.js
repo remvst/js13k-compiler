@@ -45,7 +45,7 @@ module.exports = (source, config) => {
 
             const content = source.substring(contentStart, contentEnd);
 
-            const modifiedContent = macro.apply(content);
+            const modifiedContent = macro.apply(content, config);
 
             characterDiff += modifiedContent.length - JSON.stringify(content).length;
 
