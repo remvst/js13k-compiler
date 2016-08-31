@@ -14,7 +14,7 @@ module.exports = (source, config) => {
             return protectedNames.keywords.indexOf(w) === -1;
         })
         .filter(w => {
-            return protectedNames.dom.indexOf(w) === -1 || config.FORCE_MANGLING.indexOf(w) === -1;
+            return protectedNames.dom.indexOf(w) === -1 || config.FORCE_MANGLING.indexOf(w) >= 0;
         })
         .filter(w => {
             return config.SKIP_MANGLING.indexOf(w) === -1;
