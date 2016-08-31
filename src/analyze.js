@@ -5,16 +5,18 @@ const stripComments = require('strip-comments');
 const protectedNames = require('../data/protected-names');
 
 module.exports = (source, config) => {
+    const protectedMap = {};
+    protectedNames.dom.concat(protectedNames.keywords).forEach((name) => {
+        protectedMap[name] = true;
+    });
+
     const wordList = cleanString(source)
         .split(' ')
         .filter(w => {
             return w.length >= 2 && /^[$_a-z]/i.test(w);
         })
         .filter(w => {
-            return protectedNames.keywords.indexOf(w) === -1;
-        })
-        .filter(w => {
-            return protectedNames.dom.indexOf(w) === -1 || config.FORCE_MANGLING.indexOf(w) >= 0;
+            return !protectedMap[w] || config.FORCE_MANGLING.indexOf(w) >= 0;
         })
         .filter(w => {
             return config.SKIP_MANGLING.indexOf(w) === -1;
