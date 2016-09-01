@@ -15,6 +15,6 @@ Clone the repository, then run `npm install`.
 
 ## Usage
 
-See the `samples/` directory for an example config file, as well the expected input/output.
+See the `samples/` directory for an example script, as well as its input/output.
 
-Create a config file, then run `bin/build your-config.json`.
+Create a config file, then run it.
