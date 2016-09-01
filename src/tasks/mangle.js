@@ -2,9 +2,9 @@
 
 const stripComments = require('strip-comments');
 
-const encodeNumber = require('../encode-number');
-const analyze = require('../analyze');
-const split = require('../split');
+const encodeNumber = require('../util/encode-number');
+const analyze = require('../util/analyze');
+const split = require('../util/split');
 
 const Task = require('./task');
 
