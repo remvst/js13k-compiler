@@ -15,7 +15,8 @@ const stepMap = {
     'uglifyHTML': require('./steps/uglify-html'),
     'pack': require('./steps/pack'),
     'zip': require('./steps/zip'),
-    'combine': require('./steps/combine')
+    'combine': require('./steps/combine'),
+    'constants': require('./steps/constants')
 };
 
 function builderFunction(functionName){

@@ -7,6 +7,9 @@ compiler.run((steps) => {
         return steps.sequence([
             steps.loadFiles([__dirname + "/src/js/main.js"]),
             steps.concat(),
+            steps.constants({
+                'MY_AWESOME_CONSTANT': 3.14
+            }),
             steps.macros(['matrix']),
             steps.mangle({
                 'force': ['data']
