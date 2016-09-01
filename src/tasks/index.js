@@ -17,7 +17,8 @@ const taskMap = {
     'zip': require('./zip'),
     'combine': require('./combine'),
     'constants': require('./constants'),
-    'inject': require('./inject')
+    'inject': require('./inject'),
+    'checkSize': require('./check-size')
 };
 
 function builderFunction(functionName){

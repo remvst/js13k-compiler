@@ -62,7 +62,8 @@ compiler.run((tasks) => {
             tasks.combine(),
             tasks.output(__dirname + '/build/game.html'),
             tasks.zip('index.html'),
-            tasks.output(__dirname + '/build/game.zip')
+            tasks.output(__dirname + '/build/game.zip'),
+            tasks.checkSize(__dirname + '/build/game.zip')
         ]);
     }
 
