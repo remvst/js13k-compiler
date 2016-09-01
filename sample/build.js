@@ -66,13 +66,13 @@ compiler.run((tasks) => {
         ]);
     }
 
-    function buildDebug(){
+    function buildDebug(mangle, suffix){
         return tasks.sequence([
             tasks.parallel({
                 // Debug JS in a separate file
                 'debug_js': tasks.sequence([
-                    buildJS(false, false),
-                    tasks.output(__dirname + '/build/debug.js')
+                    buildJS(mangle, false),
+                    tasks.output(__dirname + '/build/debug' + suffix + '.js')
                 ]),
 
                 // Injecting the debug file
@@ -82,14 +82,15 @@ compiler.run((tasks) => {
                 'html': buildHTML(false)
             }),
             tasks.combine(),
-            tasks.output(__dirname + '/build/debug.html')
+            tasks.output(__dirname + '/build/debug' + suffix + '.html')
         ]);
     }
 
     function main(){
         return tasks.sequence([
             buildMain(),
-            buildDebug()
+            buildDebug(false, ''),
+            buildDebug(true, '_mangled')
         ]);
     }
 

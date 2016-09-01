@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sample game</title>
+        <style>
+            body{
+    background-color: black;
+    width: 100%;
+}
+
+        </style>
+    </head>
+
+    <body>
+        <script>
+            ["debug.js"].forEach(function(path){
+    var script = document.createElement('script');
+    script.src = path;
+    document.body.appendChild(script);
+});
+        </script>
+    </body>
+</html>
