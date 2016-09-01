@@ -11,6 +11,7 @@ function main(steps){
             'force': ['data']
         }),
         steps.es6ify(),
+        steps.uglify(),
         steps.log(),
         steps.output(__dirname + "/testbuild.js")
     ]);
