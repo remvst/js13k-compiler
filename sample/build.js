@@ -14,7 +14,8 @@ function main(steps){
         steps.uglify(),
         steps.pack(),
         steps.log(),
-        steps.output(__dirname + "/testbuild.js")
+        steps.zip(),
+        steps.output(__dirname + "/testbuild.zip")
     ]);
 }
 

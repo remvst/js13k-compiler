@@ -13,7 +13,7 @@ class Output extends Step{
     execute(input){
         super.execute(input);
 
-        return fsp.writeFile(this.destination, input).then(() => {
+        return fsp.writeFile(this.destination, input, 'binary').then(() => {
             return input;
         });
     }

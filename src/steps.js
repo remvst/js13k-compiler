@@ -11,7 +11,8 @@ const stepMap = {
     'mangle': require('./steps/mangle'),
     'es6ify': require('./steps/es6ify'),
     'uglify': require('./steps/uglify'),
-    'pack': require('./steps/pack')
+    'pack': require('./steps/pack'),
+    'zip': require('./steps/zip')
 };
 
 function builderFunction(functionName){
