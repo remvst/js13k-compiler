@@ -13,9 +13,7 @@ module.exports = (source, config) => {
         mangleProperties: false,
         compress: {
             dead_code: true,
-            global_defs: {
-                DEBUG: false
-            }
+            unsafe: true
         }
     });
 
