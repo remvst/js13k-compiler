@@ -2,7 +2,7 @@
   "name": "js13k-compiler",
   "version": "0.0.1",
   "description": "Compiler designed for the JS13K game development contest.",
-  "main": "src/runner.js",
+  "main": "src/compiler.js",
   "author": "Rémi Vansteelandt",
   "license": "ISC",
   "dependencies": {
