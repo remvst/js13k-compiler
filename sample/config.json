@@ -1,49 +1,55 @@
 {
     "steps": [{
-        "id": "multi",
-        "steps": {
-            "js": [{
-                "id": "load-files",
-                "files": [
-                    "sample/src/js/main.js"
-                ]
-            }, {
-                "id": "apply-constants",
-                "constants": {
-                    "MY_AWESOME_CONSTANT": 3.14
-                }
-            }, {
-                "id": "apply-macros",
-                "macros": ["matrix"]
-            }, {
-                "id": "mangle-names",
-                "skip": [],
-                "force": []
-            }, {
-                "id": "uglify-js"
-            }],
-            "html": [{
-                "id": "load-files",
-                "files": [
-                    "sample/src/index.html"
-                ]
-            }, {
-                "id": "uglify-html"
-            }],
+        "type": "parallel",
+        "outputs": {
+            "js": {
+                "type": "sequence",
+                "steps": [{
+                    "type": "load-files",
+                    "files": [
+                        "sample/src/js/main.js"
+                    ]
+                }, {
+                    "type": "apply-constants",
+                    "constants": {
+                        "MY_AWESOME_CONSTANT": 3.14
+                    }
+                }, {
+                    "type": "apply-macros",
+                    "macros": ["matrix"]
+                }, {
+                    "type": "mangle-names",
+                    "skip": [],
+                    "force": []
+                }, {
+                    "type": "uglify-js"
+                }],
+            },
+            "html": {
+                "type": "sequence",
+                "steps": [{
+                    "type": "load-files",
+                    "files": [
+                        "sample/src/index.html"
+                    ]
+                }, {
+                    "type": "uglify-html"
+                }],
+            },
             "css": [{
-                "id": "load-files",
+                "type": "load-files",
                 "files": [
                     "sample/src/style.css"
                 ]
             }]
         }
     }, {
-        "id": "build-html",
+        "type": "build-html",
         "files": [
             "sample/src/index.html"
         ]
     }, {
-        "id": "output",
+        "type": "output",
         "destination": "sample/build/game.html"
     }]
 }

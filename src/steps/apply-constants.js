@@ -3,9 +3,6 @@
 const colors = require('colors/safe');
 
 module.exports = (source, config) => {
-    // Replacing constants
-    console.log(colors.green('Replacing constants...'));
-
     for(let constant in config.CONSTANTS){
         const value = config.CONSTANTS[constant];
         const regex = new RegExp('\\b' + constant + '\\b', 'g');

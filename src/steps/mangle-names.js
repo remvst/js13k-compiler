@@ -23,8 +23,6 @@ function hasMatch(lines, mangled){
 
 module.exports = (source, config) => {
     // Replacing names that are too common
-    console.log(colors.green('Mangling names...'));
-
     const mangledNames = analyze(source, config);
     const lines = stripComments(source).split('\n'); // stripping the comments to avoid detecting inexistent conflicts
 
@@ -33,10 +31,10 @@ module.exports = (source, config) => {
     mangledNames.forEach((name) => {
         while(true){
             const mangled = encodeNumber(mangleIndex++);
-            mangleMap[name] = mangled;
 
             // Check if the mangled name is already in the original source
             if(!hasMatch(lines, mangled)){
+                mangleMap[name] = mangled;
                 break;
             }
         }
@@ -53,12 +51,13 @@ module.exports = (source, config) => {
         const regex = new RegExp('\\b' + word + '\\b', 'g');
 
         let characterDiff = 0;
-        nonStringComponents.forEach((component) => {
+        for(let i = 0 ; i < nonStringComponents.length ; i++){
+            const component = nonStringComponents[i];
             const lengthBefore = component.content.length;
             component.content = component.content.replace(regex, mangled);
             const lengthAfter = component.content.length;
             characterDiff += lengthAfter - lengthBefore;
-        });
+        }
 
         const color = characterDiff > 0 ? colors.red : colors.green;
 

@@ -1,10 +1,38 @@
 'use strict';
 
+const fsp = require('fs-promise');
+
+const Step = require('./step');
+
+class Macros extends Step{
+    constructor(macros){
+        super();
+        this.macros = macros;
+    }
+
+    execute(input){
+        super.execute(input);
+
+        this.macros.forEach(macroId => {
+            input = this.applyMacro(macroId, input);
+        });
+
+        return Promise.resolve(input);
+    }
+
+    applyMacro(macroId, input){
+        const macro = require('../macros/' + macroId);
+    }
+}
+
+module.exports = Macros;
+
+
+'use strict';
+
 const colors = require('colors/safe');
 
 module.exports = (source, config) => {
-    console.log(colors.green('Applying macros...'));
-
     for(let macroId in config.MACROS){
         const macro = require('../macros/' + config.MACROS[macroId]);
 
