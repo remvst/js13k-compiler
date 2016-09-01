@@ -20,6 +20,10 @@ class Runner {
 
         console.log('Runner ended without errors in ' + (this.end - this.start) + 'ms');
     }
+
+    elaspedTime(){
+        return Date.now() - this.start;
+    }
 }
 
 module.exports = Runner;
