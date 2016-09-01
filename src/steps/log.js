@@ -11,7 +11,7 @@ class Log extends Step{
         super.execute(input);
 
         console.log(input);
-        return input;
+        return Promise.resolve(input);
     }
 }
 

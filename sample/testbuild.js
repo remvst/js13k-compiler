@@ -1,4 +1,4 @@
-function revertMatrix (s){
+function _ (s){
         return s.split(',').map(function(r){
             return r.split('').map(function(v){
                 return parseInt(v);
@@ -9,13 +9,13 @@ function revertMatrix (s){
 window.addEventListener('load', function(){
     console.log('Loaded');
 
-    var variableThatWillBeShortened = 123;
+    var $ = 123;
 
-    console.log(variableThatWillBeShortened);
+    console.log($);
 
-    console.log(MY_AWESOME_CONSTANT); // defined in config.json
+    console.log(a); // defined in config.json
 
-    var data = revertMatrix("000000001,000000001,000000001,000000000,000000001,111111111");
+    var b = _("000000001,000000001,000000001,000000000,000000001,111111111");
 
-    console.log(data);
+    console.log(b);
 }, false);

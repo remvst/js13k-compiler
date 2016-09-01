@@ -7,6 +7,9 @@ function main(steps){
         steps.loadFiles([__dirname + "/src/js/main.js"]),
         steps.concat(),
         steps.macros(['matrix']),
+        steps.mangle({
+            'force': ['data']
+        }),
         steps.log(),
         steps.output(__dirname + "/testbuild.js")
     ]);

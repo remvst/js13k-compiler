@@ -4,7 +4,7 @@ const stripComments = require('strip-comments');
 
 const protectedNames = require('../data/protected-names');
 
-module.exports = (source, config) => {
+module.exports = (source, force, skip) => {
     const protectedMap = {};
     protectedNames.dom.concat(protectedNames.keywords).forEach((name) => {
         protectedMap[name] = true;
@@ -16,10 +16,10 @@ module.exports = (source, config) => {
             return w.length >= 2 && /^[$_a-z]/i.test(w);
         })
         .filter(w => {
-            return !protectedMap[w] || config.FORCE_MANGLING.indexOf(w) >= 0;
+            return !protectedMap[w] || force.indexOf(w) >= 0;
         })
         .filter(w => {
-            return config.SKIP_MANGLING.indexOf(w) === -1;
+            return skip.indexOf(w) === -1;
         });
 
     const counts = countList(wordList).sort((a, b) => {
