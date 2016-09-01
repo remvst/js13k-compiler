@@ -24,7 +24,7 @@ class Parallel extends Task{
     }
 
     runSubTask(input, task, subTaskLabel, outputMap){
-        return task.execute(input).then((subTaskOutput) => {
+        return task.run(this.runner, input).then((subTaskOutput) => {
             outputMap[subTaskLabel] = subTaskOutput;
         });
     }

@@ -15,7 +15,7 @@ class Sequence extends Task{
 
         this.tasks.forEach((task) => {
             currentPromise = currentPromise.then((output) => {
-                return task.execute(output);
+                return task.run(this.runner, output);
             });
         });
 
