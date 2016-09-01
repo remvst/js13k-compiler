@@ -1,26 +1,49 @@
 {
-    "INPUT": {
-        "JS": [
-            "sample/src/js/main.js"
-        ],
-        "HTML": "sample/src/index.html",
-        "CSS": "sample/src/style.css"
-    },
-    "OUTPUT": {
-        "ES6": false,
-        "HTML": "sample/build/game.html",
-        "ZIP": "sample/build/game.zip",
-        "DEBUG_HTML": "sample/build/debug.html",
-        "DEBUG_JS": "sample/build/debug.js",
-        "DEBUG_MANGLED_JS": "sample/build/debug_mangled.js"
-    },
-    "MACROS": {
-        "matrix": "matrix"
-    },
-    "CONSTANTS": {
-        "MY_AWESOME_CONSTANT": 3.14
-    },
-    "SKIP_MANGLING": [],
-    "FORCE_MANGLING": [],
-    "VERBOSE": true
+    "steps": [{
+        "id": "multi",
+        "steps": {
+            "js": [{
+                "id": "load-files",
+                "files": [
+                    "sample/src/js/main.js"
+                ]
+            }, {
+                "id": "apply-constants",
+                "constants": {
+                    "MY_AWESOME_CONSTANT": 3.14
+                }
+            }, {
+                "id": "apply-macros",
+                "macros": ["matrix"]
+            }, {
+                "id": "mangle-names",
+                "skip": [],
+                "force": []
+            }, {
+                "id": "uglify-js"
+            }],
+            "html": [{
+                "id": "load-files",
+                "files": [
+                    "sample/src/index.html"
+                ]
+            }, {
+                "id": "uglify-html"
+            }],
+            "css": [{
+                "id": "load-files",
+                "files": [
+                    "sample/src/style.css"
+                ]
+            }]
+        }
+    }, {
+        "id": "build-html",
+        "files": [
+            "sample/src/index.html"
+        ]
+    }, {
+        "id": "output",
+        "destination": "sample/build/game.html"
+    }]
 }
