@@ -2,7 +2,7 @@
 
 const stripComments = require('strip-comments');
 
-const protectedNames = require('../data/protected-names');
+const protectedNames = require('../../data/protected-names');
 
 module.exports = (source, force, skip) => {
     const protectedMap = {};
