@@ -1,8 +1,8 @@
 'use strict';
 
-const Step = require('./step');
+const Task = require('./task');
 
-class Parallel extends Step{
+class Parallel extends Task{
     constructor(tasks){
         super();
         this.tasks = tasks;
@@ -14,8 +14,8 @@ class Parallel extends Step{
         const promises = [];
         const outputMap = {};
 
-        for(let subStepLabel in this.tasks){
-            promises.push(this.runSubStep(input, this.tasks[subStepLabel], subStepLabel, outputMap));
+        for(let subTaskLabel in this.tasks){
+            promises.push(this.runSubTask(input, this.tasks[subTaskLabel], subTaskLabel, outputMap));
         }
 
         return Promise.all(promises).then(() => {
@@ -23,9 +23,9 @@ class Parallel extends Step{
         });
     }
 
-    runSubStep(input, task, subStepLabel, outputMap){
-        return task.execute(input).then((subStepOutput) => {
-            outputMap[subStepLabel] = subStepOutput;
+    runSubTask(input, task, subTaskLabel, outputMap){
+        return task.execute(input).then((subTaskOutput) => {
+            outputMap[subTaskLabel] = subTaskOutput;
         });
     }
 }

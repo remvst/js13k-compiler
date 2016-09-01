@@ -6,7 +6,7 @@ const encodeNumber = require('../encode-number');
 const analyze = require('../analyze');
 const split = require('../split');
 
-const Step = require('./step');
+const Task = require('./task');
 
 function hasMatch(lines, mangled){
     const regex = new RegExp('\\b' + mangled + '\\b', 'g');
@@ -22,7 +22,7 @@ function hasMatch(lines, mangled){
     return false;
 }
 
-class Mangle extends Step{
+class Mangle extends Task{
     constructor(config){
         super();
         this.config = config || {};

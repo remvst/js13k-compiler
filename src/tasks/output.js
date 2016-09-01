@@ -2,9 +2,9 @@
 
 const fsp = require('fs-promise');
 
-const Step = require('./step');
+const Task = require('./task');
 
-class Output extends Step{
+class Output extends Task{
     constructor(destination){
         super();
         this.destination = destination;

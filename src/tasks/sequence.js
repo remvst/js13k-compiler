@@ -1,8 +1,8 @@
 'use strict';
 
-const Step = require('./step');
+const Task = require('./task');
 
-class Sequence extends Step{
+class Sequence extends Task{
     constructor(tasks){
         super();
         this.tasks = tasks;

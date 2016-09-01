@@ -2,9 +2,9 @@
 
 const fsp = require('fs-promise');
 
-const Step = require('./step');
+const Task = require('./task');
 
-class FileLoader extends Step{
+class FileLoader extends Task{
     constructor(files){
         super();
         this.files = files;

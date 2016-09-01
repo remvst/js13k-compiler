@@ -1,8 +1,8 @@
 'use strict';
 
-const Step = require('./step');
+const Task = require('./task');
 
-class Constants extends Step{
+class Constants extends Task{
     constructor(constants){
         super();
         this.constants = constants;

@@ -2,9 +2,9 @@
 
 const zip = require('node-zip');
 
-const Step = require('./step');
+const Task = require('./task');
 
-class Zip extends Step{
+class Zip extends Task{
     constructor(filename){
         super();
         this.filename = filename;

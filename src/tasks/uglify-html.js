@@ -2,9 +2,9 @@
 
 const minifyHTML = require('html-minifier').minify;
 
-const Step = require('./step');
+const Task = require('./task');
 
-class UglifyHTML extends Step{
+class UglifyHTML extends Task{
     constructor(){
         super();
     }

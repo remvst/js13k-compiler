@@ -1,8 +1,8 @@
 'use strict';
 
-const Step = require('./step');
+const Task = require('./task');
 
-class Concat extends Step{
+class Concat extends Task{
     constructor(){
         super();
     }

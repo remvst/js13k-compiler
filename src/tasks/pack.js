@@ -2,9 +2,9 @@
 
 const packer = require('packer');
 
-const Step = require('./step');
+const Task = require('./task');
 
-class Pack extends Step{
+class Pack extends Task{
     constructor(){
         super();
     }

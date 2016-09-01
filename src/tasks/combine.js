@@ -2,12 +2,12 @@
 
 const Mustache = require('mustache');
 
-const Step = require('./step');
+const Task = require('./task');
 
 const INJECT_JS_TAG = 'JS_INJECTION_SITE';
 const INJECT_CSS_TAG = 'CSS_INJECTION_SITE';
 
-class UglifyHTML extends Step{
+class UglifyHTML extends Task{
     constructor(){
         super();
     }

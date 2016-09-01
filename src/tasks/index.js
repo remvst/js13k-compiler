@@ -1,6 +1,6 @@
 'use strict';
 
-const stepMap = {
+const taskMap = {
     'loadFiles': require('./load-files'),
     'parallel': require('./parallel'),
     'sequence': require('./sequence'),
@@ -20,12 +20,12 @@ const stepMap = {
 };
 
 function builderFunction(functionName){
-    const cls = stepMap[functionName];
+    const cls = taskMap[functionName];
     return function(arg){
         return new cls(arg);
     };
 }
 
-for(let functionName in stepMap){
+for(let functionName in taskMap){
     module.exports[functionName] = builderFunction(functionName);
 }

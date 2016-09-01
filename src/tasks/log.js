@@ -1,8 +1,8 @@
 'use strict';
 
-const Step = require('./step');
+const Task = require('./task');
 
-class Log extends Step{
+class Log extends Task{
     constructor(){
         super();
     }

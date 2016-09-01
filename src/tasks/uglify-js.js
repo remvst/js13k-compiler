@@ -2,9 +2,9 @@
 
 const uglifyJS = require('uglify-js');
 
-const Step = require('./step');
+const Task = require('./task');
 
-class UglifyJS extends Step{
+class UglifyJS extends Task{
     constructor(){
         super();
     }

@@ -1,12 +1,12 @@
 'use strict';
 
-const Step = require('./step');
+const Task = require('./task');
 
 function undo(s){
     eval(s.replace(/\(([^\)]*)\)=>\{/g, 'function($1){')); // jshint ignore:line
 }
 
-class ES6ify extends Step{
+class ES6ify extends Task{
     constructor(){
         super();
     }

@@ -1,6 +1,6 @@
 'use strict';
 
-class Step{
+class Task{
     constructor(){
         // Nothing to do here
     }
@@ -10,4 +10,4 @@ class Step{
     }
 }
 
-module.exports = Step;
+module.exports = Task;

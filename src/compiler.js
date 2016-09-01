@@ -1,11 +1,11 @@
 'use strict';
 
 module.exports.run = function(func){
-    const steps = require('./tasks'); // get the steps in the global scope
+    const tasks = require('./tasks'); // get the tasks in the global scope
 
-    const rootStep = func(steps);
+    const rootTask = func(tasks);
 
-    rootStep.execute({}).catch(err => {
+    rootTask.execute({}).catch(err => {
         console.error(err);
     });
 };

@@ -1,8 +1,8 @@
 'use strict';
 
-const Step = require('./step');
+const Task = require('./task');
 
-class Macros extends Step{
+class Macros extends Task{
     constructor(macros){
         super();
         this.macros = macros;

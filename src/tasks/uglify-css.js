@@ -2,9 +2,9 @@
 
 const CleanCSS = require('clean-css');
 
-const Step = require('./step');
+const Task = require('./task');
 
-class UglifyCSS extends Step{
+class UglifyCSS extends Task{
     constructor(){
         super();
     }
