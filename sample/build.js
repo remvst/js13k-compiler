@@ -5,6 +5,7 @@ const compiler = require('../src/compiler');
 compiler.run((tasks) => {
     function buildJS(mangle, uglify){
         const sequence = [
+            tasks.label('Building JS'),
             tasks.loadFiles([__dirname + "/src/js/main.js"]),
             tasks.concat(),
             tasks.constants({
@@ -28,6 +29,7 @@ compiler.run((tasks) => {
 
     function buildCSS(uglify){
         const sequence = [
+            tasks.label('Building CSS'),
             tasks.loadFiles([__dirname + "/src/style.css"]),
             tasks.concat()
         ];
@@ -41,6 +43,7 @@ compiler.run((tasks) => {
 
     function buildHTML(uglify){
         const sequence = [
+            tasks.label('Building HTML'),
             tasks.loadFiles([__dirname + "/src/index.html"]),
             tasks.concat()
         ];
@@ -54,6 +57,7 @@ compiler.run((tasks) => {
 
     function buildMain(){
         return tasks.sequence([
+            tasks.label('Building main files'),
             tasks.parallel({
                 'js': buildJS(true, true),
                 'css': buildCSS(true),
@@ -69,6 +73,7 @@ compiler.run((tasks) => {
 
     function buildDebug(mangle, suffix){
         return tasks.sequence([
+            tasks.label('Building debug files'),
             tasks.parallel({
                 // Debug JS in a separate file
                 'debug_js': tasks.sequence([

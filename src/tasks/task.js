@@ -6,7 +6,7 @@ class Task{
     }
 
     execute(){
-        console.log(this.constructor.name + '...');
+        // Nothing to do here
     }
 }
 
