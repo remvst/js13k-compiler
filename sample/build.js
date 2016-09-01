@@ -43,7 +43,8 @@ compiler.run((steps) => {
         return steps.sequence([
             buildAll(),
             steps.combine(),
-            steps.log()
+            steps.zip('index.html'),
+            steps.output(__dirname + '/game.zip')
         ]);
     }
 
