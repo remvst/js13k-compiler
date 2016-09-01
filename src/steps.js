@@ -10,7 +10,8 @@ const stepMap = {
     'concat': require('./steps/concat'),
     'mangle': require('./steps/mangle'),
     'es6ify': require('./steps/es6ify'),
-    'uglify': require('./steps/uglify')
+    'uglify': require('./steps/uglify'),
+    'pack': require('./steps/pack')
 };
 
 function builderFunction(functionName){

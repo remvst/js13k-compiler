@@ -2,6 +2,16 @@
 
 const packer = require('packer');
 
-module.exports = (source) => {
-    return packer.pack(source, true, true);
-};
+const Step = require('./step');
+
+class Pack extends Step{
+    constructor(){
+        super();
+    }
+
+    execute(input){
+        return Promise.resolve(packer.pack(input, true, true));
+    }
+}
+
+module.exports = Pack;

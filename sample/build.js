@@ -12,6 +12,7 @@ function main(steps){
         }),
         steps.es6ify(),
         steps.uglify(),
+        steps.pack(),
         steps.log(),
         steps.output(__dirname + "/testbuild.js")
     ]);
