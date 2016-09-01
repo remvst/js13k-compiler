@@ -11,16 +11,41 @@ compiler.run((steps) => {
             steps.mangle({
                 'force': ['data']
             }),
-            steps.es6ify(),
-            steps.uglify(),
-            steps.pack(),
-            steps.log()
+            steps.uglifyJS()
         ]);
     }
 
     function mainCSS(){
-        
+        return steps.sequence([
+            steps.loadFiles([__dirname + "/src/style.css"]),
+            steps.concat(),
+            steps.uglifyCSS()
+        ]);
     }
 
-    return mainJS();
+    function mainHTML(){
+        return steps.sequence([
+            steps.loadFiles([__dirname + "/src/index.html"]),
+            steps.concat(),
+            steps.uglifyHTML()
+        ]);
+    }
+
+    function buildAll(){
+        return steps.parallel({
+            'js': mainJS(),
+            'css': mainCSS(),
+            'html': mainHTML()
+        });
+    }
+
+    function main(){
+        return steps.sequence([
+            buildAll(),
+            steps.combine(),
+            steps.log()
+        ]);
+    }
+
+    return main();
 });
