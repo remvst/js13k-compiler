@@ -10,7 +10,7 @@ compiler.run((tasks) => {
             tasks.constants({
                 'MY_AWESOME_CONSTANT': 3.14
             }),
-            tasks.macros(['matrix'])
+            tasks.macro('matrix')
         ];
 
         if(mangle){

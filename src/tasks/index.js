@@ -6,7 +6,7 @@ const taskMap = {
     'sequence': require('./sequence'),
     'log': require('./log'),
     'output': require('./output'),
-    'macros': require('./macros'),
+    'macro': require('./macro'),
     'concat': require('./concat'),
     'mangle': require('./mangle'),
     'es6ify': require('./es6ify'),

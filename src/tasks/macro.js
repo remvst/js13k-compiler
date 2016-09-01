@@ -2,33 +2,25 @@
 
 const Task = require('./task');
 
-class Macros extends Task{
-    constructor(macros){
+class Macro extends Task{
+    constructor(macro){
         super();
-        this.macros = macros;
+        this.macro = macro;
     }
 
     execute(input){
         super.execute(input);
 
-        this.macros.forEach(macroId => {
-            input = this.applyMacro(macroId, input);
-        });
+        const macro = require('../macros/' + this.macro);
 
-        return Promise.resolve(input);
-    }
-
-    applyMacro(macroId, input){
-        const macro = require('../macros/' + macroId);
-
-        const undoName = 'revert' + macroId.substr(0, 1).toUpperCase() + macroId.substr(1);
+        const undoName = 'revert' + this.macro.substr(0, 1).toUpperCase() + this.macro.substr(1);
         const undoCode = macro.revert ? macro.revert.toString().replace(/function/, 'function ' + undoName) + '\n\n' : '';
 
         input = undoCode + input;
 
         let characterDiff = undoCode.length;
 
-        const regex = new RegExp(macroId + '\\(', 'g');
+        const regex = new RegExp(this.macro + '\\(', 'g');
 
         while(true){
             const match = regex.exec(input);
@@ -40,7 +32,7 @@ class Macros extends Task{
             const matchStart = match.index;
 
             let lvl = 1;
-            let i = matchStart + (macroId + '(').length + 1;
+            let i = matchStart + (this.macro + '(').length + 1;
             while(lvl > 0 && i < input.length){
                 if(input.charAt(i) === '('){
                     lvl++;
@@ -53,7 +45,7 @@ class Macros extends Task{
 
             const matchEnd = i;
 
-            const contentStart = matchStart + (macroId + '(').length;
+            const contentStart = matchStart + (this.macro + '(').length;
             const contentEnd = matchEnd - 1;
 
             const content = input.substring(contentStart, contentEnd);
@@ -72,8 +64,8 @@ class Macros extends Task{
             }
         }
 
-        return input;
+        return Promise.resolve(input);
     }
 }
 
-module.exports = Macros;
+module.exports = Macro;
