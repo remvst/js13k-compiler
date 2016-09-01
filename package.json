@@ -6,6 +6,7 @@
   "author": "Rémi Vansteelandt",
   "license": "ISC",
   "dependencies": {
+    "clean-css": "^3.4.19",
     "colors": "^1.1.2",
     "express": "^4.14.0",
     "fs-promise": "^0.5.0",

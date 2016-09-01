@@ -10,9 +10,12 @@ const stepMap = {
     'concat': require('./steps/concat'),
     'mangle': require('./steps/mangle'),
     'es6ify': require('./steps/es6ify'),
-    'uglify': require('./steps/uglify'),
+    'uglifyJS': require('./steps/uglify-js'),
+    'uglifyCSS': require('./steps/uglify-css'),
+    'uglifyHTML': require('./steps/uglify-html'),
     'pack': require('./steps/pack'),
-    'zip': require('./steps/zip')
+    'zip': require('./steps/zip'),
+    'combine': require('./steps/combine')
 };
 
 function builderFunction(functionName){

@@ -4,7 +4,7 @@ const uglifyJS = require('uglify-js');
 
 const Step = require('./step');
 
-class Uglify extends Step{
+class UglifyJS extends Step{
     constructor(){
         super();
     }
@@ -24,4 +24,4 @@ class Uglify extends Step{
     }
 }
 
-module.exports = Uglify;
+module.exports = UglifyJS;
