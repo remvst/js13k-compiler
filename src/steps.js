@@ -5,7 +5,9 @@ const stepMap = {
     'parallel': require('./steps/parallel'),
     'sequence': require('./steps/sequence'),
     'log': require('./steps/log'),
-    'output': require('./steps/output')
+    'output': require('./steps/output'),
+    'macros': require('./steps/macros'),
+    'concat': require('./steps/concat')
 };
 
 function builderFunction(functionName){

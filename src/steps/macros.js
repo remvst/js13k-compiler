@@ -1,7 +1,5 @@
 'use strict';
 
-const fsp = require('fs-promise');
-
 const Step = require('./step');
 
 class Macros extends Step{
@@ -22,31 +20,18 @@ class Macros extends Step{
 
     applyMacro(macroId, input){
         const macro = require('../macros/' + macroId);
-    }
-}
-
-module.exports = Macros;
-
-
-'use strict';
-
-const colors = require('colors/safe');
-
-module.exports = (source, config) => {
-    for(let macroId in config.MACROS){
-        const macro = require('../macros/' + config.MACROS[macroId]);
 
         const undoName = 'revert' + macroId.substr(0, 1).toUpperCase() + macroId.substr(1);
         const undoCode = macro.revert ? macro.revert.toString().replace(/function/, 'function ' + undoName) + '\n\n' : '';
 
-        source = undoCode + source;
+        input = undoCode + input;
 
         let characterDiff = undoCode.length;
 
         const regex = new RegExp(macroId + '\\(', 'g');
 
         while(true){
-            const match = regex.exec(source);
+            const match = regex.exec(input);
 
             if(!match){
                 break;
@@ -56,10 +41,10 @@ module.exports = (source, config) => {
 
             let lvl = 1;
             let i = matchStart + (macroId + '(').length + 1;
-            while(lvl > 0 && i < source.length){
-                if(source.charAt(i) === '('){
+            while(lvl > 0 && i < input.length){
+                if(input.charAt(i) === '('){
                     lvl++;
-                }else if(source.charAt(i) === ')'){
+                }else if(input.charAt(i) === ')'){
                     lvl--;
                 }
 
@@ -71,28 +56,24 @@ module.exports = (source, config) => {
             const contentStart = matchStart + (macroId + '(').length;
             const contentEnd = matchEnd - 1;
 
-            const content = source.substring(contentStart, contentEnd);
+            const content = input.substring(contentStart, contentEnd);
 
-            const modifiedContent = macro.apply(content, config);
+            const modifiedContent = macro.apply(content);
 
             characterDiff += modifiedContent.length - JSON.stringify(content).length;
 
-            const sourceBefore = source.substring(0, matchStart);
-            const sourceAfter = source.substring(matchEnd);
+            const sourceBefore = input.substring(0, matchStart);
+            const sourceAfter = input.substring(matchEnd);
 
             if(undoCode){
-                source = sourceBefore + undoName + '(' + modifiedContent + ')' + sourceAfter;
+                input = sourceBefore + undoName + '(' + modifiedContent + ')' + sourceAfter;
             }else{
-                source = sourceBefore + modifiedContent + sourceAfter;
+                input = sourceBefore + modifiedContent + sourceAfter;
             }
         }
 
-        const color = characterDiff > 0 ? colors.red : colors.green;
-
-        if(config.VERBOSE){
-            console.log('- ' + macroId + ': ' + color(characterDiff + ' chars'));
-        }
+        return input;
     }
+}
 
-    return source;
-};
+module.exports = Macros;

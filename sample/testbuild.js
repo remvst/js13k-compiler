@@ -1,3 +1,11 @@
+function revertMatrix (s){
+        return s.split(',').map(function(r){
+            return r.split('').map(function(v){
+                return parseInt(v);
+            });
+        });
+    }
+
 window.addEventListener('load', function(){
     console.log('Loaded');
 
@@ -7,14 +15,7 @@ window.addEventListener('load', function(){
 
     console.log(MY_AWESOME_CONSTANT); // defined in config.json
 
-    var data = matrix([
-        [0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1]
-    ]);
+    var data = revertMatrix("000000001,000000001,000000001,000000000,000000001,111111111");
 
     console.log(data);
 }, false);
