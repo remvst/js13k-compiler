@@ -8,6 +8,7 @@ class Concat extends Task{
     }
 
     execute(input){
+        super.execute(input);
         return Promise.resolve(input.join('\n'));
     }
 }

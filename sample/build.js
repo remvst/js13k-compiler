@@ -2,52 +2,73 @@
 
 const compiler = require('../src/compiler');
 
-compiler.run((steps) => {
-    function mainJS(){
-        return steps.sequence([
-            steps.loadFiles([__dirname + "/src/js/main.js"]),
-            steps.concat(),
-            steps.constants({
+compiler.run((tasks) => {
+    function buildJS(mangle, uglify){
+        const sequence = [
+            tasks.loadFiles([__dirname + "/src/js/main.js"]),
+            tasks.concat(),
+            tasks.constants({
                 'MY_AWESOME_CONSTANT': 3.14
             }),
-            steps.macros(['matrix']),
-            steps.mangle({
+            tasks.macros(['matrix'])
+        ];
+
+        if(mangle){
+            sequence.push(tasks.mangle({
                 'force': ['data']
-            }),
-            steps.uglifyJS()
-        ]);
+            }));
+        }
+
+        if(uglify){
+            sequence.push(tasks.uglifyJS);
+        }
+
+        return tasks.sequence(sequence);
     }
 
-    function mainCSS(){
-        return steps.sequence([
-            steps.loadFiles([__dirname + "/src/style.css"]),
-            steps.concat(),
-            steps.uglifyCSS()
-        ]);
+    function buildCSS(uglify){
+        const sequence = [
+            tasks.loadFiles([__dirname + "/src/style.css"]),
+            tasks.concat()
+        ];
+
+        if(uglify){
+            sequence.push(tasks.uglifyCSS);
+        }
+
+        return tasks.sequence(sequence);
     }
 
-    function mainHTML(){
-        return steps.sequence([
-            steps.loadFiles([__dirname + "/src/index.html"]),
-            steps.concat(),
-            steps.uglifyHTML()
-        ]);
+    function buildHTML(uglify){
+        const sequence = [
+            tasks.loadFiles([__dirname + "/src/index.html"]),
+            tasks.concat()
+        ];
+
+        if(uglify){
+            sequence.push(tasks.uglifyHTML());
+        }
+
+        return tasks.sequence(sequence);
     }
 
-    function buildAll(){
-        return steps.parallel({
-            'js': mainJS(),
-            'css': mainCSS(),
-            'html': mainHTML()
+    function buildAll(settings){
+        return tasks.parallel({
+            'js': buildJS(settings.mangle, settings.uglify),
+            'css': buildCSS(settings.uglify),
+            'html': buildHTML(settings.uglify)
         });
     }
 
     function main(){
-        return steps.sequence([
-            buildAll(),
-            steps.combine(),
-            steps.zip('index.html'),
-            steps.output(__dirname + '/game.zip')
+        return tasks.sequence([
+            buildAll({
+                'uglify': true,
+                'mangle': true
+            }),
+            tasks.combine(),
+            tasks.zip('index.html'),
+            tasks.output(__dirname + '/game.zip')
         ]);
     }
 
