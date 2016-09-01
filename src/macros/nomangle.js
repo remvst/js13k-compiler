@@ -1,6 +1,6 @@
 'use strict';
 
-const split = require('../src/split');
+const split = require('../../src/split');
 
 module.exports = {
     'apply': (s) => {
