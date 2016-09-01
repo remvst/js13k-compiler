@@ -52,23 +52,44 @@ compiler.run((tasks) => {
         return tasks.sequence(sequence);
     }
 
-    function buildAll(settings){
-        return tasks.parallel({
-            'js': buildJS(settings.mangle, settings.uglify),
-            'css': buildCSS(settings.uglify),
-            'html': buildHTML(settings.uglify)
-        });
+    function buildMain(){
+        return tasks.sequence([
+            tasks.parallel({
+                'js': buildJS(true, true),
+                'css': buildCSS(true),
+                'html': buildHTML(true)
+            }),
+            tasks.combine(),
+            tasks.output(__dirname + '/build/game.html'),
+            tasks.zip('index.html'),
+            tasks.output(__dirname + '/build/game.zip')
+        ]);
+    }
+
+    function buildDebug(){
+        return tasks.sequence([
+            tasks.parallel({
+                // Debug JS in a separate file
+                'debug_js': tasks.sequence([
+                    buildJS(false, false),
+                    tasks.output(__dirname + '/build/debug.js')
+                ]),
+
+                // Injecting the debug file
+                'js': tasks.inject(['debug.js']),
+
+                'css': buildCSS(false),
+                'html': buildHTML(false)
+            }),
+            tasks.combine(),
+            tasks.output(__dirname + '/build/debug.html')
+        ]);
     }
 
     function main(){
         return tasks.sequence([
-            buildAll({
-                'uglify': true,
-                'mangle': true
-            }),
-            tasks.combine(),
-            tasks.zip('index.html'),
-            tasks.output(__dirname + '/game.zip')
+            buildMain(),
+            buildDebug()
         ]);
     }
 
