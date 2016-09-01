@@ -1,21 +1,3 @@
-function _ (s){
-        return s.split(',').map(function(r){
-            return r.split('').map(function(v){
-                return parseInt(v);
-            });
-        });
-    }
-
-window.addEventListener('load', function(){
-    console.log('Loaded');
-
-    var $ = 123;
-
-    console.log($);
-
-    console.log(a); // defined in config.json
-
-    var b = _("000000001,000000001,000000001,000000000,000000001,111111111");
-
-    console.log(b);
-}, false);
+(function undo(s){
+    eval(s.replace(/\(([^\)]*)\)=>\{/g, 'function($1){')); // jshint ignore:line
+})("function _ (s){\n        return s.split(',').map((r)=>{\n            return r.split('').map((v)=>{\n                return parseInt(v);\n            });\n        });\n    }\n\nwindow.addEventListener('load', ()=>{\n    console.log('Loaded');\n\n    var $ = 123;\n\n    console.log($);\n\n    console.log(a); // defined in config.json\n\n    var b = _(\"000000001,000000001,000000001,000000000,000000001,111111111\");\n\n    console.log(b);\n}, false);\n");

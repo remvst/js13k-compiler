@@ -10,6 +10,7 @@ function main(steps){
         steps.mangle({
             'force': ['data']
         }),
+        steps.es6ify(),
         steps.log(),
         steps.output(__dirname + "/testbuild.js")
     ]);

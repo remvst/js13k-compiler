@@ -1,6 +1,5 @@
 'use strict';
 
-const colors = require('colors/safe');
 const stripComments = require('strip-comments');
 
 const encodeNumber = require('../encode-number');
@@ -70,7 +69,7 @@ class Mangle extends Step{
             }
         }
 
-        return split.join(components);
+        return Promise.resolve(split.join(components));
     }
 }
 

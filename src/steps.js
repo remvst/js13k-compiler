@@ -8,7 +8,8 @@ const stepMap = {
     'output': require('./steps/output'),
     'macros': require('./steps/macros'),
     'concat': require('./steps/concat'),
-    'mangle': require('./steps/mangle')
+    'mangle': require('./steps/mangle'),
+    'es6ify': require('./steps/es6ify')
 };
 
 function builderFunction(functionName){
