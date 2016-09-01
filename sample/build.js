@@ -20,7 +20,7 @@ compiler.run((tasks) => {
         }
 
         if(uglify){
-            sequence.push(tasks.uglifyJS);
+            sequence.push(tasks.uglifyJS());
         }
 
         return tasks.sequence(sequence);
@@ -33,7 +33,7 @@ compiler.run((tasks) => {
         ];
 
         if(uglify){
-            sequence.push(tasks.uglifyCSS);
+            sequence.push(tasks.uglifyCSS());
         }
 
         return tasks.sequence(sequence);
