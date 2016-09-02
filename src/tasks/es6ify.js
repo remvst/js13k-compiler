@@ -1,5 +1,7 @@
 'use strict';
 
+const stripComments = require('strip-comments');
+
 const Task = require('./task');
 
 function undo(s){
@@ -12,7 +14,7 @@ class ES6ify extends Task{
     }
 
     execute(input){
-        super.execute(input);
+        input = stripComments(input);
 
         // Change function styles
         input = input.replace(new RegExp('function\\(([^\\)]*)\\)\\{', 'g'), '($1)=>{');
