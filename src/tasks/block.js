@@ -13,7 +13,7 @@ class Block extends Task{
     execute(input){
         super.execute(input);
 
-        console.log('\n');
+        console.log('');
         this.log(this.label, colors.white.underline);
         return Promise.resolve(input);
     }
