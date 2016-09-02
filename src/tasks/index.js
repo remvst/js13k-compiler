@@ -19,13 +19,14 @@ const taskMap = {
     'constants': require('./constants'),
     'inject': require('./inject'),
     'checkSize': require('./check-size'),
-    'label': require('./label')
+    'label': require('./label'),
+    'watch': require('./watch')
 };
 
 function builderFunction(functionName){
     const cls = taskMap[functionName];
-    return function(arg){
-        return new cls(arg);
+    return function(){
+        return new cls(...arguments);
     };
 }
 

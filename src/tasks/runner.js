@@ -1,5 +1,23 @@
 'use strict';
 
+const colors = require('colors/safe');
+
+function addZeros(n, l){
+    n = n.toString();
+    while(n.length < l){
+        n = '0' + n;
+    }
+    return n;
+}
+
+function formatTime(t){
+    var m = ~~(t / 60),
+        s = ~~(t % 60),
+        ms = ~~((t % 1) * 1000);
+
+    return addZeros(m, 2) + ':' + addZeros(s, 2) + '.' + addZeros(ms, 3);
+}
+
 class Runner {
     constructor(task){
         this.task = task;
@@ -17,12 +35,19 @@ class Runner {
 
     ended(){
         this.end = Date.now();
-
-        console.log('Runner ended without errors in ' + (this.end - this.start) + 'ms');
+        this.log('Done');
     }
 
     elaspedTime(){
-        return Date.now() - this.start;
+        return (this.end || Date.now()) - this.start;
+    }
+
+    log(s, modifier){
+        modifier = modifier || colors.green;
+
+        const formattedTime = formatTime(this.elaspedTime() / 1000);
+
+        console.log('[' + formattedTime + '] ' + modifier(s));
     }
 }
 

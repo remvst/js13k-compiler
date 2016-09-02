@@ -20,6 +20,10 @@ class Task{
         this.executionStart = Date.now();
         return this.execute(input);
     }
+
+    log(s, modifier){
+        return this.runner.log(s, modifier);
+    }
 }
 
 module.exports = Task;
