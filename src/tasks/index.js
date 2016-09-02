@@ -20,7 +20,8 @@ const taskMap = {
     'inject': require('./inject'),
     'checkSize': require('./check-size'),
     'label': require('./label'),
-    'watch': require('./watch')
+    'watch': require('./watch'),
+    'block': require('./block');
 };
 
 function builderFunction(functionName){
