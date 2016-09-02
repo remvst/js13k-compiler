@@ -1,6 +1,7 @@
 'use strict';
 
 const fsp = require('fs-promise');
+const colors = require('colors/safe');
 
 const Task = require('./task');
 const Runner = require('./runner');
@@ -35,7 +36,9 @@ class Watch extends Task{
     runTask(){
         const task = this.taskBuilder();
         const runner = new Runner(task);
-        runner.run().then(() => {
+        runner.run().catch((err) => {
+            this.log('Error while building: ' + err, colors.red);
+        }).then(() => {
             this.log('Waiting for file changes...');
         });
     }
