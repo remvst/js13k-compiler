@@ -28,7 +28,9 @@ class Output extends Task{
             promises.push(fsp.writeFile(file, content));
         }
 
-        return Promise.all(promises);
+        return Promise.all(promises).then(() => {
+            return input;
+        });
     }
 }
 
