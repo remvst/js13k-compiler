@@ -21,7 +21,7 @@ const taskMap = {
     'checkSize': require('./check-size'),
     'label': require('./label'),
     'watch': require('./watch'),
-    'block': require('./block');
+    'block': require('./block')
 };
 
 function builderFunction(functionName){
