@@ -20,9 +20,8 @@ class Macro extends Task{
 
         let characterDiff = undoCode.length;
 
-        const regex = new RegExp(this.macro + '\\(', 'g');
-
         while(true){
+            const regex = new RegExp(this.macro + '\\(', 'g');
             const match = regex.exec(input);
 
             if(!match){
