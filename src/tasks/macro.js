@@ -3,15 +3,16 @@
 const Task = require('./task');
 
 class Macro extends Task{
-    constructor(macro){
+    constructor(macro, settings){
         super();
         this.macro = macro;
+        this.settings = settings;
     }
 
     execute(input){
         super.execute(input);
 
-        const macro = require('../macros/' + this.macro);
+        const macro = this.settings || require('../macros/' + this.macro);
 
         const undoName = 'revert' + this.macro.substr(0, 1).toUpperCase() + this.macro.substr(1);
         const undoCode = macro.revert ? macro.revert.toString().replace(/function/, 'function ' + undoName) + '\n\n' : '';
