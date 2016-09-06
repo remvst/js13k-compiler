@@ -3,6 +3,7 @@
 const stripComments = require('strip-comments');
 
 const protectedNames = require('../../data/protected-names');
+const splitter = require('./split');
 
 module.exports = (source, force, skip) => {
     const protectedMap = {};
@@ -37,6 +38,8 @@ module.exports = (source, force, skip) => {
 };
 
 function cleanString(s){
+    s = splitter.join(splitter.split(s));
+
     // Eliminate comments
     s = stripComments(s);
 
