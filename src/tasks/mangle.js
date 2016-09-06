@@ -1,6 +1,7 @@
 'use strict';
 
 const stripComments = require('strip-comments');
+const escapeStringRegexp = require('escape-string-regexp');
 
 const encodeNumber = require('../util/encode-number');
 const analyze = require('../util/analyze');
@@ -9,7 +10,7 @@ const split = require('../util/split');
 const Task = require('./task');
 
 function hasMatch(lines, mangled){
-    const regex = new RegExp('\\b' + mangled + '\\b', 'g');
+    const regex = new RegExp('\\b' + escapeStringRegexp(mangled) + '\\b', 'g');
 
     for(var i = 0 ; i < lines.length ; i++){
         const matches = lines[i].match(regex) || [];
