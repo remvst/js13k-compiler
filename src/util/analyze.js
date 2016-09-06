@@ -23,7 +23,7 @@ module.exports = (source, force, skip) => {
         });
 
     const counts = countList(wordList).sort((a, b) => {
-        return a.count * a.word.length - b.count * b.word.length;
+        return a.count - b.count;
     }).map(item => {
         return {
             'word': item.word,
