@@ -30,11 +30,15 @@ class Mangle extends Task{
     }
 
     execute(input){
-        super.execute(input);
-
         // Replacing names that are too common
         const mangledNames = analyze(input, this.config.force || [], this.config.skip || []);
-        const lines = stripComments(input).split('\n'); // stripping the comments to avoid detecting inexistent conflicts
+
+        // stripping the comments and the strings to avoid detecting inexistent conflicts
+        const splitComponents = split.split(input);
+        const inputWithoutStrings = splitComponents.map(component => {
+            return component.isString ? '""' : component.content; // if it's a string, replace with an empty string
+        }).join('');
+        const lines = stripComments(inputWithoutStrings).split('\n');
 
         const mangleMap = {};
         let mangleIndex = 0;
