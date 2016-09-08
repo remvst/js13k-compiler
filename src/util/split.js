@@ -30,7 +30,11 @@ module.exports = {
     },
     'join': (components) => {
         return components.map((component) => {
-            return component.content;
+            if(component.isString){
+                return module.exports.START_TAG + component.content + module.exports.END_TAG;
+            }else{
+                return component.content;
+            }
         }).join('');
     }
 };
