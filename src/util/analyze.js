@@ -5,7 +5,9 @@ const stripComments = require('strip-comments');
 const protectedNames = require('../../data/protected-names');
 const splitter = require('./split');
 
-module.exports = (source, force, skip) => {
+module.exports = (source, force, skip, minLength) => {
+    minLength = minLength || 2;
+
     const protectedMap = {};
     protectedNames.dom.concat(protectedNames.keywords).forEach((name) => {
         protectedMap[name] = true;
@@ -14,7 +16,7 @@ module.exports = (source, force, skip) => {
     const wordList = cleanString(source)
         .split(' ')
         .filter(w => {
-            return w.length >= 2 && /^[$_a-z]/i.test(w);
+            return w.length >= minLength && /^[$_a-z]/i.test(w);
         })
         .filter(w => {
             return !protectedMap[w] || force.indexOf(w) >= 0;
