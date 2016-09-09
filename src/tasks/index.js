@@ -15,6 +15,7 @@ const taskMap = {
     'uglifyHTML': require('./uglify-html'),
     'pack': require('./pack'),
     'zip': require('./zip'),
+    'advzip': require('./adv-zip'),
     'combine': require('./combine'),
     'constants': require('./constants'),
     'inject': require('./inject'),
