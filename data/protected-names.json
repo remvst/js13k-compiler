@@ -26,7 +26,13 @@
         "do",
         "throw",
         "try",
-        "catch"
+        "catch",
+        "const",
+        "let",
+        "class",
+        "super",
+        "extends",
+        "static"
     ],
     "dom": [
         "$&",
