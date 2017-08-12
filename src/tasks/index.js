@@ -11,6 +11,7 @@ const taskMap = {
     'mangle': require('./mangle'),
     'es6ify': require('./es6ify'),
     'uglifyJS': require('./uglify-js'),
+    'uglifyES': require('./uglify-es'),
     'uglifyCSS': require('./uglify-css'),
     'uglifyHTML': require('./uglify-html'),
     'pack': require('./pack'),
