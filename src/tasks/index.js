@@ -12,6 +12,7 @@ const taskMap = {
     'es6ify': require('./es6ify'),
     'uglifyJS': require('./uglify-js'),
     'uglifyES': require('./uglify-es'),
+    'terser': require('./terser'),
     'uglifyCSS': require('./uglify-css'),
     'uglifyHTML': require('./uglify-html'),
     'pack': require('./pack'),
