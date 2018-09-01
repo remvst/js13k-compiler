@@ -9,6 +9,13 @@ const split = require('../util/split');
 
 const Task = require('./task');
 
+const protectedNames = require('../../data/protected-names');
+
+const protectedMap = {};
+protectedNames.dom.concat(protectedNames.keywords).forEach((name) => {
+    protectedMap[name] = true;
+});
+
 function hasMatch(lines, mangled){
     const regex = new RegExp('\\b' + escapeStringRegexp(mangled) + '\\b', 'g');
 
@@ -21,6 +28,10 @@ function hasMatch(lines, mangled){
     }
 
     return false;
+}
+
+function isProtected(mangled) {
+    return !!protectedMap[mangled];
 }
 
 class Mangle extends Task{
@@ -47,7 +58,7 @@ class Mangle extends Task{
                 const mangled = encodeNumber(mangleIndex++);
 
                 // Check if the mangled name is already in the original input
-                if(!hasMatch(lines, mangled)){
+                if(!hasMatch(lines, mangled) && !isProtected(mangled)){
                     mangleMap[name] = mangled;
                     break;
                 }
