@@ -15,7 +15,6 @@ const taskMap = {
     'terser': require('./terser'),
     'uglifyCSS': require('./uglify-css'),
     'uglifyHTML': require('./uglify-html'),
-    'pack': require('./pack'),
     'zip': require('./zip'),
     'advzip': require('./adv-zip'),
     'combine': require('./combine'),
