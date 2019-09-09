@@ -1,6 +1,6 @@
 'use strict';
 
-const keys = [
+const instrumentKeys = [
     "osc1_oct",
     "osc1_det",
     "osc1_detune",
@@ -36,12 +36,12 @@ module.exports = {
     'apply': s => {
         const content = JSON.parse(s);
 
-        return JSON.stringify(keys.map(key => {
+        return JSON.stringify(instrumentKeys.map(key => {
             return content[key];
         }));
     },
     'revert': function(arr) {
-        const keys = [
+        const instrumentKeys = [
             "osc1_oct",
             "osc1_det",
             "osc1_detune",
@@ -73,7 +73,7 @@ module.exports = {
             "lfo_waveform"
         ];
         const res = {};
-        keys.forEach((key, i) => res[key] = arr[i]);
+        instrumentKeys.forEach((key, i) => res[key] = arr[i]);
         return res;
     }
 };
