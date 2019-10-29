@@ -6,7 +6,7 @@
   "author": "Rémi Vansteelandt",
   "license": "ISC",
   "dependencies": {
-    "clean-css": "^3.4.19",
+    "clean-css": "^4.2.1",
     "colors": "^1.1.2",
     "escape-string-regexp": "^1.0.5",
     "express": "^4.14.0",
