@@ -14,8 +14,8 @@
     "html-minifier": "^3.0.2",
     "mustache": "^2.2.1",
     "node-zip": "^1.1.1",
-    "strip-comments": "^0.4.4",
-    "terser": "^3.8.2",
+    "strip-comments": "^2.0.1",
+    "terser": "^3.17.0",
     "uglify-es": "^3.3.9",
     "uglify-js": "^2.7.0"
   }
