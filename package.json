@@ -16,7 +16,7 @@
     "node-zip": "^1.1.1",
     "strip-comments": "^0.4.4",
     "terser": "^3.8.2",
-    "uglify-es": "^3.0.27",
+    "uglify-es": "^3.3.9",
     "uglify-js": "^2.7.0"
   }
 }
