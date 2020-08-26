@@ -1,4 +1,4 @@
-function _ (s){
+function g(s){
         return s.split(',').map(function(r){
             return r.split('').map(function(v){
                 return parseInt(v);
@@ -9,13 +9,13 @@ function _ (s){
 window.addEventListener('load', function(){
     console.log('Loaded');
 
-    var $ = 123;
+    var _ = 123;
 
-    console.log($);
+    console.log(_);
 
     console.log(3.14); // defined in config.json
 
-    var a = _("000000001,000000001,000000001,000000000,000000001,111111111");
+    var $ = g("000000001,000000001,000000001,000000000,000000001,111111111");
 
-    console.log(a);
+    console.log($);
 }, false);

@@ -1,4 +1,4 @@
-function revertMatrix (s){
+function revertMatrix(s){
         return s.split(',').map(function(r){
             return r.split('').map(function(v){
                 return parseInt(v);
