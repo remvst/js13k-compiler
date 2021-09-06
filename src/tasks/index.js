@@ -24,6 +24,7 @@ const taskMap = {
     'label': require('./label'),
     'watch': require('./watch'),
     'block': require('./block'),
+    'ect': require('./ect'),
     'longerNames': require('./longer-names')
 };
 
