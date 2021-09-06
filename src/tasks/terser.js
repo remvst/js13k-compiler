@@ -10,11 +10,11 @@ class Terser extends Task {
     }
 
     execute(input) {
-        const uglified = terser.minify(input, {
-
-        });
-
-        return Promise.resolve(uglified.code);
+        return terser.minify(input, {
+            mangle: {
+                properties: true,
+            },
+        }).then(uglified => uglified.code);
     }
 }
 

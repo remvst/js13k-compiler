@@ -15,7 +15,7 @@
     "mustache": "^2.2.1",
     "node-zip": "^1.1.1",
     "strip-comments": "^2.0.1",
-    "terser": "^3.17.0",
+    "terser": "^5.7.2",
     "uglify-es": "^3.3.9",
     "uglify-js": "^2.7.0"
   }
