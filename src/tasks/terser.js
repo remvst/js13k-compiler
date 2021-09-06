@@ -12,7 +12,6 @@ class Terser extends Task {
     execute(input) {
         return terser.minify(input, {
             mangle: {
-                properties: true,
             },
         }).then(uglified => uglified.code);
     }
