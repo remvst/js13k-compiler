@@ -25,7 +25,8 @@ const taskMap = {
     'watch': require('./watch'),
     'block': require('./block'),
     'ect': require('./ect'),
-    'longerNames': require('./longer-names')
+    'longerNames': require('./longer-names'),
+    'roadroller': require('./roadroller')
 };
 
 function builderFunction(functionName){
